@@ -1,4 +1,38 @@
 
+<?php
+    include_once('./inc/config.php');
+    // global $conn;
+    $query = "SELECT * FROM student_classes";
+    // Check connection
+    if (!$sqlConnection) {
+        die("Connection failed: " . $sqlConnection->connect_error);
+    }
+
+    $stmt = $sqlConnection->prepare($query);
+    // Check preparation
+    if (!$stmt) {
+        die("Prepare failed: " . $sqlConnection->error);
+    }
+    // Execute statement
+    if (!$stmt->execute()) {
+        die("Execute failed: " . $stmt->error);
+    }
+    // Get result
+    $result = $stmt->get_result();
+
+    // Fetch all rows
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Check for data
+    if (!$data) {
+        echo "No data found.";
+    } //else {
+        // Process data
+     
+        
+    //die;}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -38,7 +72,7 @@
                                         <div class="card-body">
                                             <div class="text-center mb-4 mt-3">
                                                 <a href="index.php">
-                                                    <span><h2>Beavers Preparatory School Portal</h2></span>
+                                                    <span><h2>Gloryland Baptist Academy Portal</h2></span>
                                                 </a>
                                             </div>
                                             <!-- <form action="http://localhost/school_portal/public/config/login/register.php" method="POST" class="p-2"> -->
@@ -85,7 +119,7 @@
                                                     </div>
                                                 </div> -->
                                                 <div class="mb-3 text-center">
-                                                    <button class="btn btn-primary btn-block" id="submitButton"> Sign Up Free </button>
+                                                    <button class="btn btn-primary btn-block" id="submitButton" disabled> Submit </button>
                                                     <!-- <script>
                                                         let checkboxSignin = document.querySelector("#checkbox-signin");
                                                         let btnsubmit = document.querySelector("#submitButton");
@@ -134,8 +168,9 @@
 
         let kids_num_div = document.getElementById('kids_num_div');
         let num_of_kids = document.getElementById('kids_num');
+        let submitBtn = document.getElementById('submitButton');
         document.getElementById('proceed').addEventListener('click', ()=>{
-
+            submitBtn.disabled = false;
             kids_num_div.style.display = "block";
             kids_num_div.innerHTML = "";
             
@@ -155,14 +190,14 @@
                     <div class="col-md-3">
                         <select name='kidsclass[]' class="form-control" id=''>
                             <option value='' disabled selected>Class</option>
-                            <option value='prenursery'>Prenursery</option>
-                            <option value='nusery1'>Nursery One</option>
-                            <option value='nursery2'>Nursery Two</option>
-                            <option value='basic1'>Basic One</option>
-                            <option value='basic2'>Basic Two</option>
-                            <option value='basic3'>Basic Three</option>
-                            <option value='basic4'>Basic Four</option>
-                            <option value='basic45'>Basic Five</option>
+                            <?php
+                                for($i = 0; $i < count($data); $i++){
+                                    // $level = $data[$i]['level'];
+                                    $grade = $data[$i]['grade'];
+                                    echo"<option value='$grade'>$grade</option>";
+                                }
+                            ?>
+                               
                         </select>
                         
                     </div>
@@ -190,7 +225,10 @@
                         title: 'Success!',
                         text: response.message
                     });
-                    form.reset();
+                    // form.reset();
+                    setTimeout(function() {
+                        window.location.reload(false);
+                    }, 1500)
                 } else {
                     Swal.fire({
                         title: 'Error!',
