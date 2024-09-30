@@ -5,7 +5,7 @@ class Database{
     private $db_host = 'localhost';
     private $db_name = 'school_portal';
     private $db_username = 'root';
-    private $db_password = 'Totalchild6471!';
+    private $db_password = '';
     
     public function dbConnection(){
         
