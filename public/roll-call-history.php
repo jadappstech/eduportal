@@ -178,7 +178,6 @@
         $run_query = mysqli_query($sqlConnection, $query);
         $classes = $run_query->fetch_all(MYSQLI_ASSOC);
         // var_dump($classes);die;
-
     }
 
 ?>
@@ -249,7 +248,7 @@
                                                 echo "
                                                     <div class='col-md-2 col-xl-2'>
                                                         <div class='text-center'>
-                                                            <a href='take-roll-call.php?id=".$classes[$i]['arm_id']."'>
+                                                            <a href='roll-call-history.php?id=".$classes[$i]['arm_id']."'>
                                                                 <div class='card'>
                                                                     <div class='card-body'>
                                                                         <div class='card-body text-center'>
@@ -269,118 +268,21 @@
                             ?>
                         </div>
 
-                    <!-- display roll clall form for class if id is present in the url and the class has no attendace for that day -->
-                    <?php elseif(!isset($attendance_id)): 
+                    <!-- display list of roll calls for a particular class -->
+                    <?php elseif(isset($_GET['id']) && !isset($_GET['attendance_record_id'])): 
                         $class_id = $_GET['id'];
-                        $query = "SELECT *
-                            FROM users 
-                            WHERE users.class_arm = ".$class_id;
-                        $run_query = mysqli_query($sqlConnection, $query);
-                        $students = $run_query->fetch_all(MYSQLI_ASSOC);
-
-                        $query = "SELECT ca.name AS arm_name, sc.grade AS class_name, ca.arm_id AS arm_id
-                            FROM  class_arms ca
-                            INNER JOIN student_classes sc ON ca.class_id = sc.id
-                            WHERE ca.class_id = $class_id LIMIT 1";
-                        $run_query = mysqli_query($sqlConnection, $query);
-                        $class = $run_query->fetch_all(MYSQLI_ASSOC);
-                    ?>
-                        <!-- start page title -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-size-18">Roll Call</h4>
-
-                                    <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
-                                            <li class="breadcrumb-item active">Roll Call</li>
-                                            <li class="breadcrumb-item active"><?php echo $class[0]['class_name'].' '.$class[0]['arm_name']; ?></li>
-                                        </ol>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end page title -->
-                        <div class="container mt-5">
-                            <!-- Header Section -->
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h2>Class Roll Call</h2>
-                                <span>Date: <strong><?php echo date('l jS \of F Y'); ?></strong></span>
-                            </div>
-
-                            <!-- Roll Call Table -->
-                            <form action="" method="POST">
-                                <table class="table table-striped">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Student Name</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                            if($students){
-                                                for($i = 0; $i < count($students); $i++){
-                                                    $sn = $i + 1;
-                                                    echo "
-                                                        <tr>
-                                                            <td>$sn</td>
-                                                            <td>".$students[$i]['name']." ".$students[$i]['surname']."</td>
-                                                            <td>
-                                                                <div class='btn-group' role='group' aria-label='Attendance Status'>
-                                                                    <input type='radio' hidden class='btn-check' required name='$i' id='present$i' value='present' autocomplete='off' xchecked>
-                                                                    <label class='btn btn-outline-success mr-2' for='present$i'>Present</label>
-    
-                                                                    <input type='radio' hidden class='btn-check' required name='$i' id='absent$i' value='absent' autocomplete='off'>
-                                                                    <label class='btn btn-outline-danger' for='absent$i'>Absent</label>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    ";
-                                                // }
-                                                }
-                                            }else{
-                                                echo "<td colspan='3' class='text-center'>No students have been assigned to the class</td>";
-                                            }
-                                        ?>
-                                    </tbody>
-                                </table>
-                                <!-- Submit Button -->
-                                <div class="text-center">
-                                    <?php if($students): ?>
-                                        <button type="submit" class="btn btn-primary">Submit Roll Call</button>
-                                    <?php else: ?>
-                                        <a href="take-roll-call.php" class="btn btn-primary">Go Back</a>
-                                    <?php endif; ?>
-                                </div>
-                            </form>
-                        </div>
-                    <!-- edit attendance -->
-                    <?php elseif($attendance_id && isset($_GET['edit']) && $_GET['edit'] == 'true'): 
-                        $class_id = $_GET['id'];
-
-                        $query = "SELECT ca.name AS arm_name, sc.grade AS class_name, ca.arm_id AS arm_id
-                            FROM  class_arms ca
-                            INNER JOIN student_classes sc ON ca.class_id = sc.id
-                            WHERE ca.class_id = $class_id LIMIT 1";
-                        $run_query = mysqli_query($sqlConnection, $query);
-                        $class = $run_query->fetch_all(MYSQLI_ASSOC);
-
                         $query = "SELECT *
                             FROM attendance a
-                            WHERE a.id = ".$attendance_id;
+                            WHERE a.class_id = ".$class_id;
                         $run_query = mysqli_query($sqlConnection, $query);
-                        $attendance_details = $run_query->fetch_all(MYSQLI_ASSOC);
+                        $attendance_records = $run_query->fetch_all(MYSQLI_ASSOC);
 
-                        $query = "SELECT *
-                            FROM student_attendance a
-                            INNER JOIN users u ON a.student_id = u.id
-                            WHERE a.attendance_id = ".$attendance_id;
+                        $query = "SELECT ca.name AS arm_name, sc.grade AS class_name, ca.arm_id AS arm_id
+                            FROM  class_arms ca
+                            INNER JOIN student_classes sc ON ca.class_id = sc.id
+                            WHERE ca.class_id = $class_id LIMIT 1";
                         $run_query = mysqli_query($sqlConnection, $query);
-                        $students = $run_query->fetch_all(MYSQLI_ASSOC);
+                        $class = $run_query->fetch_all(MYSQLI_ASSOC);
                     ?>
                         <!-- start page title -->
                         <div class="row">
@@ -391,11 +293,10 @@
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
-                                            <li class="breadcrumb-item active">Roll Call</li>
+                                            <li class="breadcrumb-item active">Roll Call History</li>
                                             <li class="breadcrumb-item active"><?php echo $class[0]['class_name'].' '.$class[0]['arm_name']; ?></li>
                                         </ol>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -403,8 +304,7 @@
                         <div class="container mt-5">
                             <!-- Header Section -->
                             <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h2>Edit Class Roll Call</h2>
-                                <span>Date: <strong><?php echo date('h:ia', strtotime($attendance_details[0]['attendance_date'])) . ' ' . date('jS F Y', strtotime($attendance_details[0]['attendance_date'])); ?></strong></span>
+                                <h2><?php echo $class[0]['class_name'].' '.$class[0]['arm_name']; ?> Roll Call History</h2>
                             </div>
 
                             <!-- Roll Call Table -->
@@ -413,51 +313,46 @@
                                     <thead class="table-dark">
                                         <tr>
                                             <th>#</th>
-                                            <th>Student Name</th>
-                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th class='text-center'>No Present</th>
+                                            <th class='text-center'>No Absent</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                            if($students){
-                                                for($i = 0; $i < count($students); $i++){
+                                            if($attendance_records){
+                                                for($i = 0; $i < count($attendance_records); $i++){
                                                     $sn = $i + 1;
                                                     echo "
                                                         <tr>
                                                             <td>$sn</td>
-                                                            <td>".$students[$i]['name']." ".$students[$i]['surname']."</td>
-                                                            <td>
-                                                                <div class='btn-group' role='group' aria-label='Attendance Status'>
-                                                                    <input type='radio' hidden class='btn-check' required name='$i' id='present$i' ".($students[$i]['status']=='Present' ? 'checked' : '')." value='present' autocomplete='off' xchecked>
-                                                                    <label class='btn btn-outline-success mr-2' for='present$i'>Present</label>
-    
-                                                                    <input type='radio' hidden class='btn-check' required name='$i' id='absent$i'".($students[$i]['status']=='Absent' ? 'checked' : '')." value='absent' autocomplete='off'>
-                                                                    <label class='btn btn-outline-danger' for='absent$i'>Absent</label>
-                                                                </div>
+                                                            <td>". date('jS F Y', strtotime($attendance_records[$i]['attendance_date']))."</td>
+                                                            <td class='text-center'>".$attendance_records[$i]['present_count']."</td>
+                                                            <td class='text-center'>".$attendance_records[$i]['absent_count']."</td>
+                                                            <td class='text-center'>
+                                                                <a href='roll-call-history.php?id={$attendance_records[$i]['class_id']}&attendance_record_id={$attendance_records[$i]['id']}' class='btn btn-primary mr-2'>View Details</a>
                                                             </td>
                                                         </tr>
                                                     ";
                                                 // }
                                                 }
                                             }else{
-                                                echo "<td colspan='3' class='text-center'>No students have been assigned to the class</td>";
+                                                echo "<td colspan='3' class='text-center'>No attendance for this class</td>";
                                             }
                                         ?>
                                     </tbody>
                                 </table>
                                 <!-- Submit Button -->
                                 <div class="text-center">
-                                    <?php if($students): ?>
-                                        <button type="submit" class="btn btn-primary">Submit Roll Call</button>
-                                    <?php else: ?>
-                                        <a href="take-roll-call.php" class="btn btn-primary">Go Back</a>
-                                    <?php endif; ?>
+                                    <a href="roll-call-history.php" class="btn btn-primary">Go Back</a>
                                 </div>
                             </form>
                         </div>
-                    <!-- display roll call form for class if id is present in the url -->
-                    <?php else: 
+                    <!-- display individual records -->
+                    <?php elseif(isset($_GET['id']) && isset($_GET['attendance_record_id'])): 
                         $class_id = $_GET['id'];
+                        $attendance_id = $_GET['attendance_record_id'];
 
                         $query = "SELECT *
                             FROM attendance a
@@ -501,7 +396,7 @@
                         <div class="container mt-5">
                             <!-- Header Section -->
                             <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h2>Class Roll Call</h2>
+                                <h2><?php echo $class[0]['class_name'].' '.$class[0]['arm_name']; ?> Roll Call History</h2>
                                 <span>Date: <strong><?php echo date('ha', strtotime($attendance_details[0]['attendance_date'])) . ' ' . date('jS F Y', strtotime($attendance_details[0]['attendance_date'])); ?></strong></span>
                             </div>
 
@@ -541,7 +436,7 @@
                                 </table>
                                 <!-- Submit Button -->
                                 <div class="text-center">
-                                    <a href="take-roll-call.php" class="btn btn-primary">Go Back</a>
+                                    <a href="roll-call-history.php?id=<?php echo $class_id; ?>" class="btn btn-primary">Go Back</a>
                                     <?php if (date('Y-m-d', strtotime($attendance_details[0]['attendance_date'])) === date('Y-m-d')): ?>
                                         <a href="take-roll-call.php?id=<?php echo $class_id; ?>&edit=true&attendance_id=<?php echo $attendance_id; ?>" class="btn btn-success">Edit</a>
                                     <?php endif; ?>
