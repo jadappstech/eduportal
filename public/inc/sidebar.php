@@ -2,7 +2,7 @@
 
     <div class="navbar-brand-box">
         <a href="index.php" class="logo">
-            <img src="assets/images/beavers_logo.png" style='min-width:100px; min-height: 100px; display: block; margin: auto; background-color: white;'/>
+            <img src="assets/images/beavers_logo.png" style='min-width:6.25rem; min-height: 6.25rem; display: block; margin: auto; background-color: white;'/>
             <!-- <span>Beavers Prep. School</span> -->
         </a>
     </div>
@@ -50,7 +50,7 @@
                 $form_teacher = mysqli_query($sqlConnection, "SELECT form_teacher FROM users WHERE id ='".$_SESSION['id']."'");
                 $form_teacher = $form_teacher->fetch_all(MYSQLI_ASSOC);
                 $form_teacher = $form_teacher[0]['form_teacher'];
-                // var_dump($form_teacher);die;
+                // var_dump($form_teacher == '1');die;
             //is this a form teacher? ends here
             if( $usertype == 'admin' || $usertype == "teacher" ){
                 echo '
@@ -72,8 +72,16 @@
                         endif; ?>
                        <?php echo '
                     </ul>
-                <li>
-                ';
+                <li>'?>
+                <?php if($form_teacher == '1'):
+                echo '
+                <li><a href="javascript: void(0);" class="has-arrow waves-effect"><i class="bx bx-list-check"></i><span>Roll Call</span></a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="take-roll-call.php">Take Roll Call</a></li>
+                        <li><a href="roll-call-history.php">Roll Call History</a></li>
+                    </ul>
+                </li>';
+                endif; 
             }
             if( $usertype == 'admin' ){
                 echo '

@@ -23,6 +23,181 @@
     $_SESSION['my_class'] = $my_class;
     // var_dump($school_fees);die;
 ?>
+
+ <style>
+    .content-container {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top:60px;
+    margin-left: 250px;
+    margin-bottom:;
+    flex-grow:1; 
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.search-bar {
+    padding: 10px;
+    width: 60%;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+}
+
+.profile-section {
+    display: flex;
+    align-items: center;
+}
+
+.profile-section .date {
+    margin-right: 15px;
+    font-size: 14px;
+}
+
+.profile-icon {
+    background-color: #000;
+    color: #fff;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.bible-verse-section {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.bible-title {
+    background-color: #f0c200;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+}
+
+.bible-verse {
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+.last-terms-section {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    flex-grow:1;
+    margin-top:0px;
+    margin-right:8px;
+}
+.last-term-heading{
+    text-align:center; 
+    padding:10px;
+    font-weight:700; 
+    color:black;
+}
+.last-term-item {
+    text-align: center;
+    width:45%;
+}
+
+.last-term-item span {
+    display: block;
+    font-weight: bold;
+    color: #333;
+}
+
+.quick-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    margin-top: 20px;
+}
+
+.quick-link {
+    background-color: #d3d3d3;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+}
+
+.quick-link i {
+    margin-right: 10px;
+}
+
+.classmates {
+    background-color: #b5d2c3;
+    padding-top:12px;
+    padding-bottom:;
+}
+
+.teachers {
+    background-color: #d3bbc8;
+}
+
+.class {
+    background-color: #e7e4eb;
+}
+
+.subjects {
+    background-color: #c3acb1;
+}
+
+.club {
+    background-color: #bccbbd;
+}
+
+.house {
+    background-color: #bdbbd3;
+}
+
+.upcoming-events-section {
+    margin-top: 30px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.section-title {
+    font-weight: bold;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.upcoming-events-section ul {
+    list-style-type: none;
+    margin-top: 15px;
+}
+
+.upcoming-events-section li {
+    background-color: #f4f4f4;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+ </style>
 <body>
 
     <!-- Begin page -->
@@ -42,233 +217,113 @@
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
-        <div class="main-content">
-
-            <div class="page-content">
-        
-            <?php include_once "communication_message.php"; ?>
-
-                <div class="container-fluid">
-
-                    <!-- start page title -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 font-size-18">Dashboard</h4>
-                                    
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
-                                        <li class="breadcrumb-item active">Dashboard</li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end page title -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="clearfix">
-                                        <div class="float-left">
-                                            <h4><b>Welcome, <?php echo ucwords($user[0]['name']);?></b></h4>
-                                        </div>
-                                        <?php
-                                        if($usertype == 'student'):
-                                        echo "
-                                            <div class='float-right'>
-                                                <h4 class='m-0 d-print-none'>Bio</h4>
-                                            </div>
-                                            ";
-                                        endif;
-                                        ?>
-                                    </div>
+    <div class="content-container">
     
     
-                                    <div class="row mt-4">
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-4 center">
-                                                    <?php
-                                                    if( $user[0]['photo'] == null){
-                                                        echo "<img src=\"./inc/images/dummy_img.png\" alt=\"\" class=\"img-thumbnail\" style=\"border-radius: 50%; height: 100px; width:100px; background-size:auto;\">";
-                                                    }else{
-                                                        echo "<img src=\"./inc/images/".$user[0]['photo']."\" alt=".$user[0]['name']." class=\"img-thumbnail\" style=\"border-radius: 50%; height: 100px; width:100px; background-size:auto;\">";
-                                                    } ?>
-                                                    
-                                                    <h6 class=""><?php echo strtoupper($user[0]['name'].' '.$user[0]['surname']);?></h6>
-                                                    <!-- <p class=""><strong>#123456</strong></p> -->
-                                                    <p class=""><strong><?php echo strtoupper($user[0]['regnum']);?></strong></p>
-                                                </div>
-                                                <div class="col-8">
-                                                    
-                                                </div>
-                                            </div>
-                                           
-                                        </div><!-- end col -->
-                                        <div class="col-6">
-                                            <div class="mt-3 float-right">
-                                                <?php
-                                                    if($usertype == 'student'):
-                                                        if($school_fees == 0){
 
-                                                            echo "
-                                                                <p class='mb-2 m-b-10'>You are yet to pay your<br> school fees for this term</p>
-                                                                <p class='mb-2'>Click <strong><a href='./payments.php'>here</a></strong> to pay now.</p>
-                                                                ";
-                                                        }else{
+    <!-- Bible verse section -->
+    <div class="bible-verse-section">
+        <div class="bible-title">Bible verse of the day</div>
+        <div class="bible-verse">
+            <strong>John 3 verse 16</strong><br>
+            For God so loved the world that He gave His only begotten Son, that whosoever believeth in Him shall not perish but have everlasting life.
+        </div>
+    </div>
 
-                                                            echo "
-                                                                <p class='mb-2 m-b-10'>Your school fees has been fully paid</p>
-                                                                ";
-                                                        }
-                                                    endif;
-                                                    ?>
-                                                
-                                            </div>
-                                        </div><!-- end col -->
-                                    </div>
-                                    <!-- end row -->
+    <!-- Last terms section -->
+     <div style=" display:flex; flex-direction:row; margin-bottom:48px; justify:space-evenly;">
     
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="table-responsive">
-                                                <table class="table mt-4">
-                                                    <thead>
-                                                    <tr>
-                                                        <th colspan="9">
-                                                            MY BIODATA
-                                                        </th>
-                                                       
-                                                    </tr></thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td><b>Academic year</b><br/></td>
-                                                        <td>:</td>
-                                                        <td class="text-right"><?php echo date('Y');?></td>
-                                                        <td><b>Gender</b> <br/></td>
-                                                        <td>:</td>
-                                                        <td class="text-right"><?php echo strtoupper($user[0]['gender']);?></td>
-                                                        <?php
-                                                            if($usertype == 'student'){
-                                                                echo "
-                                                                    <td><b>Class</b> <br/> </td>
-                                                                    <td>:</td>
-                                                                    <td class='text-right'>".strtoupper($user[0]['students_class'])."</td>
-                                                                ";
-                                                            }
-                                                        ?>
-                                                    </tr>
-                                                    <!-- //row 2 -->
-                                                    <tr>
-                                                        <td><b>Nationality</b><br/></td>
-                                                        <td>:</td>
-                                                        <td class="text-right"><?php echo strtoupper($user[0]['nationality']);?></td>
-                                                        <td><b>State</b> <br/></td>
-                                                        <td>:</td>
-                                                        <td class="text-right"><?php echo strtoupper($user[0]['state']);?></td>
-                                                        <td><b>LGA</b> <br/> </td>
-                                                        <td>:</td>
-                                                        <td class="text-right"><?php echo strtoupper($user[0]['lga']);?></td>
-                                                    </tr>
-                                                    <!-- //row 3 -->
-                                                    <tr>
-                                                        <td><b>Date of birth</b><br/></td>
-                                                        <td>:</td>
-                                                        <td class="text-right"><?php echo strtoupper($user[0]['dob']);?></td>
-                                                        <td><b>Blood group</b> <br/></td>
-                                                        <td>:</td>
-                                                        <td class="text-right"><?php echo strtoupper($user[0]['bloodgroup']);?></td>
-                                                        <td><b>Genotype</b> <br/> </td>
-                                                        <td>:</td>
-                                                        <td class="text-right"><?php echo strtoupper($user[0]['genotype']);?></td>
-                                                    </tr>
-    
-                                                    <?php if($usertype == 'student'){
-
-                                                        echo "
-                                                        <tr>
-                                                            <th colspan='9'>PARENT'S INFORMATION</th>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><b>Full name</b><br/></td>
-                                                            <td>:</td>
-                                                            <td class='text-right'>".strtoupper($user[0]['parents_fullname'])."</td>
-                                                            <td><b>Phone number</b> <br/></td>
-                                                            <td>:</td>
-                                                            <td class='text-right'><a href='tel:".strtoupper($user[0]['parents_number'])."'>".strtoupper($user[0]['parents_number'])."</a></td>
-                                                            <td><b>WhatsApp number</b> <br/> </td>
-                                                            <td>:</td>
-                                                            <td class='text-right'>".strtoupper($user[0]['wphone'])."</td>
-                                                        </tr>
-                                                        <tr>
-                                                        <td><b>Email</b><br/></td>
-                                                        <td>:</td>
-                                                        <td class='text-right'>".strtoupper($user[0]['parents_email'])."</td>
-                                                        <td><b>Occupation</b> <br/></td>
-                                                        <td>:</td>
-                                                        <td class='text-right'>".strtoupper($user[0]['occupation'])."</td>
-                                                        <td><b>Address</b> <br/> </td>
-                                                        <td>:</td>
-                                                        <td class='text-right'>".strtoupper($user[0]['address'])."
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th colspan='9'>SPONSOR'S INFORMATION</th>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td><b>Full name</b><br/></td>
-                                                        <td>:</td>
-                                                        <td class='text-right'>".strtoupper($user[0]['sponsor_fullname'])."</td>
-                                                        <td><b>Phone number</b> <br/></td>
-                                                        <td>:</td>
-                                                        <td class='text-right'><a href='tel:".strtoupper($user[0]['sponsor_phone']).">".strtoupper($user[0]['parents_number'])."</a></td>
-                                                        <td><b>WhatsApp number</b> <br/> </td>
-                                                        <td>:</td>
-                                                        <td class='text-right'>".strtoupper($user[0]['sponsor_wphone'])."</td>
-                                                    </tr>
-                                                    <!-- //row 6 -->
-                                                    <tr>
-                                                        <td><b>Email</b><br/></td>
-                                                        <td>:</td>
-                                                        <td class='text-right'>".strtoupper($user[0]['sponsor_email'])."</td>
-                                                        <td><b>Occupation</b> <br/></td>
-                                                        <td>:</td>
-                                                        <td class='text-right'>".strtoupper($user[0]['sponsor_occupation'])."</td>
-                                                        <td><b>Address</b> <br/> </td>
-                                                        <td>:</td>
-                                                        <td class='text-right'>".strtoupper($user[0]['sponsor_address'])."</td>
-                                                    </tr>"
-                                                        
-                                                        ;
-                                                    }?>
-                                                    
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-    
-                                    <div class="d-print-none my-4">
-                                        <div class="text-right">
-                                            <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="fa fa-print m-r-5"></i> Print</a>
-                                            <?php
-                                                // if($usertype == 'admin'):
-                                                //     echo "<a href='edit-bio.php' class='btn btn-info waves-effect waves-light'>Edit my bio page</a>";
-                                                // endif;
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> <!-- end card-->
-                        </div> <!-- end col -->
-                    </div>
-                    <!-- end row -->
-                </div> <!-- container-fluid -->
+     <div style="width:25%;">
+        <div class="last-term-heading"><span>Last term</span></div>
+        <div class="last-terms-section" style="margin-right:8px;">
+            <div class="last-term-item">
+                <span>Position</span><br>
+                <strong>5</strong>
             </div>
-            <!-- End Page-content -->
+            <div class="last-term-item">
+                <span>Class size</span><br>
+                <strong>20</strong>
+            </div>
+        </div>
+    </div>
+
+    <div style="width:25%;">
+        <div class="last-term-heading"><span>Last term</span></div>
+        <div class="last-terms-section">
+            <!-- <div class="last-term-item">
+                <span>Position</span><br>
+                <strong>5</strong>
+            </div> -->
+            <div class="last-term-item" style="width:100%;">
+                <span>Subjects offered</span><br>
+                <strong>10</strong>
+            </div>
+        </div>
+    </div>
+
+    <div style="width:25%;">
+        <div class="last-term-heading"><span>Last term</span></div>
+        <div class="last-terms-section">
+            <div class="last-term-item">
+                <span>Position</span><br>
+                <strong>5</strong>
+            </div>
+            <div class="last-term-item">
+                <span>Class size</span><br>
+                <strong>20</strong>
+            </div>
+        </div>
+    </div>
+    
+    <div style="width:25%;">
+        <div class="last-term-heading"><span>Last term</span></div>
+        <div class="last-terms-section">
+            <div class="last-term-item">
+                <span>Position</span><br>
+                <strong>5</strong>
+            </div>
+            <div class="last-term-item">
+                <span>Class size</span><br>
+                <strong>20</strong>
+            </div>
+        </div>
+    </div>
+   
+    </div>
+
+    <!-- Quick links section -->
+    <div class="quick-links">
+        <div class="quick-link classmates">
+            <i class="fa fa-users"></i> Classmates 20
+        </div>
+        <div class="quick-link teachers">
+            <i class="fa fa-chalkboard-teacher"></i> Teachers 15
+        </div>
+        <div class="quick-link class">
+            JSS 3A
+        </div>
+        <div class="quick-link subjects">
+            <i class="fa fa-book"></i> Subjects
+        </div>
+        <div class="quick-link club">
+            <i class="fa fa-futbol"></i> Club
+        </div>
+        <div class="quick-link house">
+            <i class="fa fa-home"></i> House
+        </div>
+    </div>
+
+    <!-- Upcoming events section -->
+    <div class="upcoming-events-section">
+        <div class="section-title">Upcoming events</div>
+        <ul>
+            <li>Inter-house sport</li>
+            <li>Inter-house sport</li>
+            <li>Inter-house sport</li>
+        </ul>
+    </div>
+</div>
+
+</div>       
 
           <?php include "./inc/footer.php"; ?>

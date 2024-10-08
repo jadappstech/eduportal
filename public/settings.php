@@ -1,25 +1,27 @@
 <?php 
     include "./inc/header.php";
     include "./access-control.php";
-
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
     //here because of the pic on the navbar
     $query = "SELECT * FROM users WHERE usertype = 'student'";
     $run_query = mysqli_query($sqlConnection, $query);
     $user = $run_query->fetch_all(MYSQLI_ASSOC);
     //here because of the pic on the navbar -ends
     
-    $query = "SELECT * FROM subjects";
+    $query = "SELECT * FROM subjects WHERE deleted = '0'";
     $run_query = mysqli_query($sqlConnection, $query);
     $result = $run_query -> fetch_all(MYSQLI_ASSOC);
     // var_dump($result[3]['level']);die;
-    $query = "SELECT * FROM student_classes";
+    $query = "SELECT * FROM student_classes WHERE deleted = '0'";
     $run_query = mysqli_query($sqlConnection, $query);
     $student_classes = $run_query -> fetch_all(MYSQLI_ASSOC);
     // var_dump($student_classes[3]['level']);die;
     // $query = "SELECT * FROM arms";
     // $run_query = mysqli_query($sqlConnection, $query);
     // $arms = $run_query -> fetch_all(MYSQLI_ASSOC);
-    $stmt = $sqlConnection->prepare("SELECT * FROM arms WHERE arm != 'default'");
+    $stmt = $sqlConnection->prepare("SELECT * FROM arms WHERE arm != 'default' AnD deleted = '0'");
     $stmt->execute();
     $arms = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     
@@ -175,12 +177,12 @@
                                             
                                                     // Check if 'grade' exists in $class[$i] before accessing it
                                                     if (isset($class[0]['grade'])) {
-                                                        echo $class[0]['grade']." -> "; // debugging output
+                                                        echo "<tr><td class ='text-right'>".$class[0]['grade']."</td><td> -> </td>"; // debugging output
                                                     } else {
                                                         echo "$i.<br>";
                                                     }
                                             
-                                                    echo $arm . "<a href='./inc/delete_settings.php?id={$student_classes[$i]['id']}&obj=arm' class=''><i class='bx bx-x' style='color: red'></i></a> <br>";
+                                                    echo "<td>".$arm . "</td><td><a href='./inc/delete_settings.php?id={$arm_id}&obj=arm' class=''><i class='bx bx-x' style='color: red'></i></a> </td></tr>";
                                                 } else {
                                                     echo "Missing data in arms array at index $i.<br>";
                                                 }
