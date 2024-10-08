@@ -4,8 +4,10 @@
     $obj = $_GET['obj'];
     if($obj == "class"){
         $del = 'students_classes';
-    }else{
+    }elseif($obj == "grade"){
         $del = 'subjects';
+    }elseif($obj == 'arm'){
+        $del = 'arms';
     }
     $query = "DELETE FROM $del WHERE id = $obj_id LIMIT 1";
     $query = mysqli_query($sqlConnection, $query);

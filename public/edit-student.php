@@ -130,14 +130,20 @@ if($usertype != 'admin'){
                                                                 }
                                                                 // print_r($this_users_class);die;
                                                                 $selected_class = strtolower($edit_user[0]['students_class']);
-                                                                for($i = 0; $i < sizeof($this_users_class); $i++){
+                                                                for($i = 0; $i < count($this_users_class); $i++){
                                                                     if($selected_class == $this_users_class[$i]['grade']){
-                                                                // var_dump($selected_class == $this_users_class[$i]['grade']);die;
-    
-                                                                        echo "<option value='".$this_users_class[$i]['grade']."' selected>".ucfirst($this_users_class[$i]['grade'])."</option>";
+                                                                        echo "<option value='".$this_users_class[$i]['id']."' selected>".$this_users_class[$i]['grade']."</option>";
                                                                     }else{
-                                                                        
-                                                                        echo "<option value=".$this_users_class[$i]['grade'].">".ucfirst($this_users_class[$i]['grade'])."</option>";
+                                                                        $query = "SELECT * FROM arms WHERE class = '".$this_users_class[$i]['id']."'";
+                                                                        $run_query = mysqli_query($sqlConnection, $query);
+                                                                        $arms = $run_query->fetch_all(MYSQLI_ASSOC);
+                                                                        if($this_users_class[$i]['has_arm'] == '1'){
+                                                                            for($j = 0; $j < count($arms); $j++){
+                                                                                echo "<option value='".$this_users_class[$i]['id']."'>".$this_users_class[$i]['grade']." ".$arms[$j]['arm']."</option>";
+                                                                            }
+                                                                        }else{
+                                                                            echo "<option value='".$this_users_class[$i]['id']."'>".$this_users_class[$i]['grade']."</option>";
+                                                                        }
                                                                     }
                                                                 }
                                                             ?>

@@ -117,25 +117,28 @@ session_start();
     }
 
     ////uppload grades
-    function upload_class($input, $id){
+    function upload_arm($input, $class_id){
         global $sqlConnection;
     
-        // var_dump($file);die;
-        $grade = mysqli_real_escape_string($sqlConnection, $input['grade']);
-        $grade = strtolower($grade);
-        $uploaded_by = $id;
-       
-        $query = "INSERT INTO student_classes (`grade`, `uploaded_by`) VALUES ('$grade', '$uploaded_by')";
-    
+        $arm = mysqli_real_escape_string($sqlConnection, $input['arm']);
+        $arm = strtolower($arm);
+        $class_id = $class_id;
+        
+        $query = "INSERT INTO arms (`arm`, `class`) VALUES ('$arm', '$class_id')";
+        
         $result = mysqli_query($sqlConnection, $query);
+        // var_dump($sqlConnection);die;
+        
+        $class_query = "UPDATE students_classes SET has_arms = '1' WHERE id = '$class_id' LIMIT 1";
+        $qyery_reult = mysqli_query($sqlConnection, $class_query);
     
         
         if($result){
             $data = [
                 'status' => 200,
-                'message' => 'grade uploaded successfully',
+                'message' => 'Arm uploaded successfully',
             ];
-            header('HTTP/1.0 grade uploaded successfully');
+            header('HTTP/1.1 200 OK');
             return json_encode($data);
         }else{
             
@@ -143,7 +146,50 @@ session_start();
                 'status' => 500,
                 'message' => 'Internal Server Error'
             ];
-            header('HTTP/1.0 500 Internal Server Error');
+            header('HTTP/1.1 500 Internal Server Error');
+            return json_encode($data);
+        }
+    
+    }
+    function upload_class($input, $id){
+        global $sqlConnection;
+    
+        // var_dump($file);die;
+        $grade = mysqli_real_escape_string($sqlConnection, $input['grade']);
+        $level = mysqli_real_escape_string($sqlConnection, $input['class_level']);
+        $grade = strtolower($grade);
+        $uploaded_by = $id;
+       
+        $query = "INSERT INTO student_classes (`grade`, `level`, `uploaded_by`) VALUES (?,?,?)";
+        $stmt_class = $sqlConnection->prepare($query);
+        $stmt_class->bind_param("sss", $grade, $level, $uploaded_by);
+        $stmt_class->execute();
+        $last_id = $sqlConnection->insert_id;
+       
+    
+        // $result = mysqli_query($sqlConnection, $query);
+    
+        
+        if($last_id){
+            $query = "INSERT INTO arms (`class`, `arm`) VALUES (?,?)";
+            $stmt = $sqlConnection->prepare($query);
+            $default = 'default';
+            $stmt->bind_param("ss", $last_id, $default);
+            $stmt->execute();
+            // var_dump($stmt);die;
+            $data = [
+                'status' => 200,
+                'message' => 'grade uploaded successfully',
+            ];
+            header('HTTP/1.1 200 OK');
+            return json_encode($data);
+        }else{
+            
+            $data = [
+                'status' => 500,
+                'message' => 'Internal Server Error'
+            ];
+            header('HTTP/1.1 500 Internal Server Error');
             return json_encode($data);
         }
     
@@ -163,11 +209,13 @@ session_start();
     //    $created_by = $_SESSION['id'];
        
         $query = "INSERT INTO school_fees_items (`schoolfeesitem`, `description`, `amount`,`modality`, `created_by`) VALUES ('$schoolfeesitem', '$description', '$amount', '$modality', '$created_by')";
-    
+        
         $result = mysqli_query($sqlConnection, $query);
         // var_dump($sqlConnection);die;
         
         if($result){
+          
+            $query_result = mysqli_query($sqlConnection, $query);
             $data = [
                 'status' => 200,
                 'message' => 'School item added successfully',

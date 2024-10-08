@@ -43,7 +43,28 @@ if($requestMethod == 'POST')
         }else{
             
             $upload_class = upload_class($inputData, $id);
-            echo json_encode($upload_class);
+            // echo json_encode($upload_class);
+            header("Location: ../settings.php");
+        }
+    }elseif(isset($_POST['submit_arm'])){
+        $inputData = json_decode(file_get_contents("php://input"));
+        // var_dump($inputData);die;
+    
+        if(empty($inputData)){
+            
+            // var_dump('1');//die;
+            // var_dump($_POST['class_id']);die;
+            $upload_arm = upload_arm($_POST, $_POST['class_id']);
+            // echo $upload_arm;
+            header("Location: ../settings.php");
+            
+        }else{
+            
+            var_dump($inputData);die;
+            $upload_arm = upload_arm($inputData, $_POST['class_id']);
+        // var_dump('2');//die;
+        header("Location: ../settings.php");
+            // echo json_encode($upload_arm);
         }
     }
 

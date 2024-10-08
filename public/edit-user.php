@@ -140,7 +140,7 @@
                                                 <div class='col-lg-4 col-xl-4'>
                                                     <div class='form-group'>
                                                         <label for='students_class'>Class</label>
-                                                         <!--<input type='text' class='form-control' id='students_class' name='students_class' value=<?php echo strtoupper($this_user[0]['students_class']);?>>
+                                                         <!--<input type='text' class='form-control' id='students_class' name='students_class' value=<?php //echo strtoupper($this_user[0]['students_class']);?>>
                                                             <option selected disabled>Select your class</option>
                                                             <option value='jss1'>JSS1</option>
                                                             <option value='jss2'>JSS2</option>
@@ -159,7 +159,7 @@
                                                                     $classes_user = $classes_result->fetch_all(MYSQLI_ASSOC);
                                                                 }
                                                                 $selected_class = strtolower($user[0]['students_class']);
-                                                                for($i = 0; $i < sizeof($classes_user); $i++){
+                                                                for($i = 0; $i < count($classes_user); $i++){
                                                                     if($selected_class == $classes_user[$i]['grade']){
                                                                 // var_dump($selected_class == $classes_user[$i]['grade']);die;
     

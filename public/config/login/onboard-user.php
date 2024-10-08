@@ -29,7 +29,7 @@ $post_data = json_encode($_POST);
 $data = json_decode($post_data);
 // var_dump($data);die;
 $returnData = [];
-
+// var_dump($data);die;
 if ($_SERVER["REQUEST_METHOD"] != "POST") :
 
     $returnData = msg(0, 404, 'Page Not Found!');
@@ -54,7 +54,9 @@ else :
     $name = trim($data->name);
     $name = strtolower($name);
     $surname = trim($data->surname);
-    $regnum = trim($data->regnum);
+    $regnum = $data->regid.$data->regnum;
+    $regnum = trim($regnum);
+    // var_dump($regnum);die;
     $email = trim($data->email);
     $password = trim($data->password);
     $students_class = trim($data->students_class);

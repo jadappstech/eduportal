@@ -7,6 +7,14 @@
     $run_query = mysqli_query($sqlConnection, $query);
     $user = $run_query->fetch_all(MYSQLI_ASSOC);
 
+    $query = "SELECT * FROM student_classes WHERE level != 'elementary'";// AND students_class='jss1'";
+    $result = mysqli_query($sqlConnection, $query);
+    if($result->num_rows>0){
+        
+        $classes = $result->fetch_all(MYSQLI_ASSOC);
+    }
+  
+    // die;
     //jssone students
     $jssone_query = "SELECT * FROM users WHERE usertype = 'student' AND students_class='jss1'";
     $jssone_result = mysqli_query($sqlConnection, $jssone_query);
@@ -100,7 +108,267 @@
 
                                     <h4 class="card-title">List of Students</h4>
                                     <!-- <p class="card-subtitle mb-4">Example of vertical left side tabs.</p> -->
+                                   
+                                    <div class="row">
+                                        <div class="col-sm-2 mb-2 mb-sm-0">
+                                            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                                <a class="nav-link active show" id="jssone-tab" data-toggle="pill" href="#jssone" role="tab" aria-controls="jssone"
+                                                    aria-selected="true">
+                                                    <i class="mdi mdi-home-variant d-lg-none d-block"></i>
+                                                    <span class="d-none d-lg-block">JSS 1</span>
+                                                </a>
+                                                <?php 
+                                                    for($i = 1; $i < count($classes); $i++){
+                                                        $query = "SELECT * FROM arms WHERE class = '".$classes[$i]['id']."'";
+                                                        $run_query = mysqli_query($sqlConnection, $query);
+                                                        $arms = $run_query->fetch_all(MYSQLI_ASSOC);
+                                                        $student_classes = $classes[$i]['grade'];
+                                                        if($classes[$i]['has_arm'] == '1'){
+                                                            for($j = 0; $j < count($arms); $j++){
+                                                                // var_dump($student_classes);die;
+                                                            $arm = $arms[$j]['arm'];
+                                                                echo
+                                                                "<a class='nav-link' id='".$student_classes." ".$arm."-tab' data-toggle='pill' href='#".$student_classes."".$arm."' role='tab' aria-controls='".$student_classes."".$arm."'
+                                                                    aria-selected='false'>
+                                                                    <i class='mdi mdi-home-variant d-lg-none d-block'></i>
+                                                                    <span class='d-none d-lg-block'>".$student_classes." ".$arm."</span>
+                                                                </a>";
+                                                            }
+                                                        }else{
+                                                            echo
+                                                            "<a class='nav-link' id='".$student_classes."-tab' data-toggle='pill' href='#$student_classes' role='tab' aria-controls='$student_classes'
+                                                                aria-selected='false'>
+                                                                <i class='mdi mdi-home-variant d-lg-none d-block'></i>
+                                                                <span class='d-none d-lg-block'>$student_classes</span>
+                                                            </a>";
+                                                        }
+                                                    }
+                                                ?>
+                                            </div>
+                                        </div> <!-- end col-->
 
+                                        <?php
+                                            for($x = 1; $x < count($classes); $x++){
+                                                $students_class = $classes[$x]['grade'];
+                                                // var_dump($students_class);die;
+                                                echo "
+                                                <div class='col-sm-10'>
+                                                    <div class='tab-content' id='v-pills-tabContent'>
+                                                        <div class='tab-pane fade' id='".$students_class."' role='tabpanel' aria-labelledby='".$students_class."-tab'>
+                                                            <p class='mb-0'>Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Leggings sint. Veniam sint duis incididunt
+                                                                do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit
+                                                                excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit
+                                                                mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                ";
+                                            }
+                                        ?>
+                                        <div class="col-sm-10">
+                                            <div class="tab-content" id="v-pills-tabContent">
+                                                <div class="tab-pane fade active show" id="jssone" role="tabpanel" aria-labelledby="jssone-tab">
+                                                    <div class="row">
+                                                        <?php if(isset($jssone_user)){
+                                                        for ($i = 0; $i < sizeof($jssone_user); $i++){ ?>
+                                                            <div class='col-md-3'>
+                                                                <div class='card card-pricing'>
+                                                                    <div class='card-body text-center'>
+                                                                        <?php if( $jssone_user[$i]['photo'] == null){
+                                                                            echo "<img src=\"./inc/images/dummy_img.png\" alt=\"\" class=\"img-thumbnail\" style=\"border-radius: 20px; height: 100px; width:100px; background-size:auto;\">";
+                                                                        }else{
+                                                                            echo "<img src=\"./inc/images/".$jssone_user[$i]['photo']."\" alt=\"\" class=\"img-thumbnail\" style=\"border-radius: 20px; height: 100px; width:100px; background-size:auto;\">";
+                                                                        } ?>
+                                                                        <h5 class='font-weight-bold mt-2 text-uppercase'>
+                                                                            <?php echo $jssone_user[$i]['name'].' '.$jssone_user[$i]['surname']; ?>
+                                                                        </h5>
+                                                                        
+                                                                        <ul class='card-pricing-features'>
+                                                                        <li> <?php 
+                                                                            if($jssone_user[$i]['gender'] == null){
+                                                                                $text = "<br /><br />";
+                                                                            }else{
+
+                                                                                $text= ucfirst($jssone_user[$i]['gender']);
+                                                                            }
+                                                                            echo  $text; 
+                                                                            ?> </li>
+                                                                        </ul>
+                                                                        <p class='text-muted'><?php echo $jssone_user[$i]['students_class']; ?></p>
+                                                                        <a href="./student-profile.php?id=<?php echo $jssone_user[$i]['id']; ?>" class='btn btn-primary mt-4 mb-2 btn-rounded'>Visit Profile <i class='mdi mdi-arrow-right ml-1'></i></a>
+                                                                    </div>
+                                                                </div> <!-- end Pricing_card -->
+                                                            </div> <!-- end col -->
+                                                        <?php }
+                                                        }else{
+                                                            echo "No student in this class yet";                   
+                                                                    
+                                                        }; ?>
+                                                    </div>
+                                                   
+                                                </div>
+                                                
+                                                <div class="tab-pane fade" id="jssthree" role="tabpanel" aria-labelledby="jssthree-tab">
+                                                    <div class="row">
+                                                        <?php if(isset($jssthree_user)){
+                                                        for ($i = 0; $i < sizeof($jssthree_user); $i++){ ?>
+                                                            <div class='col-md-3'>
+                                                                <div class='card card-pricing'>
+                                                                    <div class='card-body text-center'>
+                                                                        <?php if( $jssthree_user[$i]['photo'] == null){
+                                                                            echo "<img src=\"./inc/images/dummy_img.png\" alt=\"\" class=\"img-thumbnail\" style=\"border-radius: 20px; height: 100px; width:100px; background-size:auto;\">";
+                                                                        }else{
+                                                                            echo "<img src=\"./inc/images/".$jssthree_user[$i]['photo']."\" alt=\"\" class=\"img-thumbnail\" style=\"border-radius: 20px; height: 100px; width:100px; background-size:auto;\">";
+                                                                        } ?>
+                                                                        <h5 class='font-weight-bold mt-2 text-uppercase'>
+                                                                            <?php echo $jssthree_user[$i]['name'].' '.$jssthree_user[$i]['surname']; ?>
+                                                                        </h5>
+                                                                        
+                                                                        <ul class='card-pricing-features'>
+                                                                        <li> <?php 
+                                                                            if($jssthree_user[$i]['gender'] == null){
+                                                                                $text = "<br /><br />";
+                                                                            }else{
+
+                                                                                $text= ucfirst($jssthree_user[$i]['gender']);
+                                                                            }
+                                                                            echo  $text; 
+                                                                            ?> </li>
+                                                                        </ul>
+                                                                        <p class='text-muted'><?php echo $jssthree_user[$i]['students_class']; ?></p>
+                                                                        <a href="./student-profile.php?id=<?php echo $jssthree_user[$i]['id']; ?>" class='btn btn-primary mt-4 mb-2 btn-rounded'>Visit Profile <i class='mdi mdi-arrow-right ml-1'></i></a>
+                                                                    </div>
+                                                                </div> <!-- end Pricing_card -->
+                                                            </div> <!-- end col -->
+                                                        <?php }
+                                                        }else{
+                                                            echo "No student in this class yet";                   
+                                                                    
+                                                        }; ?>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="sssone" role="tabpanel" aria-labelledby="sssone-tab">
+                                                    <div class="row">
+                                                        <?php if(isset($sssone_user)){
+                                                        for ($i = 0; $i < sizeof($sssone_user); $i++){ ?>
+                                                            <div class='col-md-3'>
+                                                                <div class='card card-pricing'>
+                                                                    <div class='card-body text-center'>
+                                                                        <?php if( $sssone_user[$i]['photo'] == null){
+                                                                            echo "<img src=\"./inc/images/dummy_img.png\" alt=\"\" class=\"img-thumbnail\" style=\"border-radius: 20px; height: 100px; width:100px; background-size:auto;\">";
+                                                                        }else{
+                                                                            echo "<img src=\"./inc/images/".$sssone_user[$i]['photo']."\" alt=\"\" class=\"img-thumbnail\" style=\"border-radius: 20px; height: 100px; width:100px; background-size:auto;\">";
+                                                                        } ?>
+                                                                        <h5 class='font-weight-bold mt-2 text-uppercase'>
+                                                                            <?php echo $sssone_user[$i]['name'].' '.$sssone_user[$i]['surname']; ?>
+                                                                        </h5>
+                                                                        
+                                                                        <ul class='card-pricing-features'>
+                                                                        <li> <?php 
+                                                                            if($sssone_user[$i]['gender'] == null){
+                                                                                $text = "<br /><br />";
+                                                                            }else{
+
+                                                                                $text= ucfirst($sssone_user[$i]['gender']);
+                                                                            }
+                                                                            echo  $text; 
+                                                                            ?> </li>
+                                                                        </ul>
+                                                                        <p class='text-muted'><?php echo $sssone_user[$i]['students_class']; ?></p>
+                                                                        <a href="./student-profile.php?id=<?php echo $sssone_user[$i]['id']; ?>" class='btn btn-primary mt-4 mb-2 btn-rounded'>Visit Profile <i class='mdi mdi-arrow-right ml-1'></i></a>
+                                                                    </div>
+                                                                </div> <!-- end Pricing_card -->
+                                                            </div> <!-- end col -->
+                                                        <?php }
+                                                        }else{
+                                                            echo "No student in this class yet";                   
+                                                                    
+                                                        }; ?>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="ssstwo" role="tabpanel" aria-labelledby="ssstwo-tab">
+                                                    <div class="row">
+                                                        <?php if(isset($ssstwo_user)){
+                                                        for ($i = 0; $i < sizeof($ssstwo_user); $i++){ ?>
+                                                            <div class='col-md-3'>
+                                                                <div class='card card-pricing'>
+                                                                    <div class='card-body text-center'>
+                                                                        <?php if( $ssstwo_user[$i]['photo'] == null){
+                                                                            echo "<img src=\"./inc/images/dummy_img.png\" alt=\"\" class=\"img-thumbnail\" style=\"border-radius: 20px; height: 100px; width:100px; background-size:auto;\">";
+                                                                        }else{
+                                                                            echo "<img src=\"./inc/images/".$ssstwo_user[$i]['photo']."\" alt=\"\" class=\"img-thumbnail\" style=\"border-radius: 20px; height: 100px; width:100px; background-size:auto;\">";
+                                                                        } ?>
+                                                                        <h5 class='font-weight-bold mt-2 text-uppercase'>
+                                                                            <?php echo $ssstwo_user[$i]['name'].' '.$ssstwo_user[$i]['surname']; ?>
+                                                                        </h5>
+                                                                        
+                                                                        <ul class='card-pricing-features'>
+                                                                        <li> <?php 
+                                                                            if($ssstwo_user[$i]['gender'] == null){
+                                                                                $text = "<br /><br />";
+                                                                            }else{
+
+                                                                                $text= ucfirst($ssstwo_user[$i]['gender']);
+                                                                            }
+                                                                            echo  $text; 
+                                                                            ?> </li>
+                                                                        </ul>
+                                                                        <p class='text-muted'><?php echo $ssstwo_user[$i]['students_class']; ?></p>
+                                                                        <a href="./student-profile.php?id=<?php echo $ssstwo_user[$i]['id']; ?>" class='btn btn-primary mt-4 mb-2 btn-rounded'>Visit Profile <i class='mdi mdi-arrow-right ml-1'></i></a>
+                                                                    </div>
+                                                                </div> <!-- end Pricing_card -->
+                                                            </div> <!-- end col -->
+                                                        <?php }
+                                                        }else{
+                                                            echo "No student in this class yet";                   
+                                                                    
+                                                        }; ?>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="sssthree" role="tabpanel" aria-labelledby="sssthree-tab">
+                                                    <div class="row">
+                                                        <?php if(isset($sssthree_user)){
+                                                        for ($i = 0; $i < sizeof($sssthree_user); $i++){ ?>
+                                                            <div class='col-md-3'>
+                                                                <div class='card card-pricing'>
+                                                                    <div class='card-body text-center'>
+                                                                        <?php if( $sssthree_user[$i]['photo'] == null){
+                                                                            echo "<img src=\"./inc/images/dummy_img.png\" alt=\"\" class=\"img-thumbnail\" style=\"border-radius: 20px; height: 100px; width:100px; background-size:auto;\">";
+                                                                        }else{
+                                                                            echo "<img src=\"./inc/images/".$sssthree_user[$i]['photo']."\" alt=\"\" class=\"img-thumbnail\" style=\"border-radius: 20px; height: 100px; width:100px; background-size:auto;\">";
+                                                                        } ?>
+                                                                        <h5 class='font-weight-bold mt-2 text-uppercase'>
+                                                                            <?php echo $sssthree_user[$i]['name'].' '.$sssthree_user[$i]['surname']; ?>
+                                                                        </h5>
+                                                                        
+                                                                        <ul class='card-pricing-features'>
+                                                                        <li> <?php 
+                                                                            if($sssthree_user[$i]['gender'] == null){
+                                                                                $text = "<br /><br />";
+                                                                            }else{
+
+                                                                                $text= ucfirst($sssthree_user[$i]['gender']);
+                                                                            }
+                                                                            echo  $text; 
+                                                                            ?> </li>
+                                                                        </ul>
+                                                                        <p class='text-muted'><?php echo $sssthree_user[$i]['students_class']; ?></p>
+                                                                        <a href="./student-profile.php?id=<?php echo $sssthree_user[$i]['id']; ?>" class='btn btn-primary mt-4 mb-2 btn-rounded'>Visit Profile <i class='mdi mdi-arrow-right ml-1'></i></a>
+                                                                    </div>
+                                                                </div> <!-- end Pricing_card -->
+                                                            </div> <!-- end col -->
+                                                        <?php }
+                                                        }else{
+                                                            echo "No student in this class yet";                   
+                                                                    
+                                                        }; ?>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end tab-content-->
+                                        </div> <!-- end col-->
+                                    </div>
+
+                                    <!-- ////////// -->
                                     <div class="row">
                                         <div class="col-sm-2 mb-2 mb-sm-0">
                                             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">

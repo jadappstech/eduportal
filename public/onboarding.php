@@ -7,7 +7,11 @@
     $user = $run_query->fetch_all(MYSQLI_ASSOC);
     //here because of the pic on the navbar -ends
 ?>
-
+<style>
+  select, option{
+    text-transform: uppercase;
+  }
+</style>
 <body>
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -57,15 +61,15 @@
                                     <form class="needs-validation" novalidate action="./config/login/onboard-user.php" method="POST">
                                         <div class="form-row">
                                           <div class="col-md-4 mb-3">
-                                            <label for="validationTooltip01">First name</label>
-                                            <input type="text" class="form-control" name="name" id="validationTooltip01" placeholder="First name" value="" required>
+                                            <label for="validationTooltip02">Surname</label>
+                                            <input type="text" class="form-control" name="surname" id="validationTooltip02" placeholder="Surname" value="" required>
                                             <div class="valid-tooltip">
                                               Looks good!
                                             </div>
                                           </div>
                                           <div class="col-md-4 mb-3">
-                                            <label for="validationTooltip02">Last name</label>
-                                            <input type="text" class="form-control" name="surname" id="validationTooltip02" placeholder="Last name" value="" required>
+                                            <label for="validationTooltip01">Other names</label>
+                                            <input type="text" class="form-control" name="name" id="validationTooltip01" placeholder="First name" value="" required>
                                             <div class="valid-tooltip">
                                               Looks good!
                                             </div>
@@ -100,14 +104,26 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-4 mb-3">
-                                              <label for="validationTooltip04">Registration Number</label>
-                                              <input type="text" name="regnum" class="form-control" id="validationTooltip04" min="5" placeholder="Registration Number" required>
-                                              <div class="invalid-tooltip">
-                                                Registration Number should be at least 5 characters!
-                                              </div>
-                                                <div class="valid-tooltip">
-                                                    Looks good!
+                                              <div class="row">
+                                                <div class="col-lg-4">
+                                                <label for="validationTooltip04">Registration Number</label>
+                                                  <select name="regid" id="regid" class="form-control">
+                                                    <option value="GBA/PRY">GBA/PRY</option>
+                                                    <option value="GBA/SEC">GBA/SEC</option>
+                                                  </select>
                                                 </div>
+                                                <div class="col-lg-8">
+
+                                                  <label for="validationTooltip04">&nbsp;</label>
+                                                  <input type="text" name="regnum" class="form-control" id="validationTooltip04" min="5" placeholder="Registration Number" required>
+                                                  <div class="invalid-tooltip">
+                                                    Registration Number should be at least 5 characters!
+                                                  </div>
+                                                    <div class="valid-tooltip">
+                                                        Looks good!
+                                                    </div>
+                                                </div>
+                                              </div>
                                             </div>
                                           <div class="col-md-4 mb-3">
                                             <label for="validationTooltip03">Password (at least 8 characters)</label>

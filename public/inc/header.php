@@ -29,7 +29,11 @@
         <link href="../plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
         <script src="js/jquery.js"></script>
         <!-- <script src="inc/modals.js"></script> -->
-        
+        <style>
+            *{
+                text-transform: uppercase !important;
+            }
+        </style>
     </head>
     <?php
         $username = $_SESSION["name"];
@@ -43,25 +47,5 @@
         }
 
     ?>
-    <!-- <a id="sa-alert" class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-        <span>Alert</span>
-    </a> -->
-    <!-- <script src="assets/js/jquery.min.js"></script>
-    <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
-    <script src="assets/pages/sweet-alert-demo.js"></script> -->
-    <script>
-        // alert(1);
-        // $('#sa-alert').click(function () {
-        //     Swal.fire(
-        //         {
-        //             title: 'Success!',
-        //             text: 'Profile update successful!',
-        //             type: 'success'
-        //         }
-        //     )
-        // });
-        // document.getElementById('sa-alert').addEventListener('click', ()=>{
 
-        // })
-    </script>
    
