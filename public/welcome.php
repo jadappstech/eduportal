@@ -8,6 +8,7 @@
     }
 
     $usertype = $usertype ?? null;
+    // var_dump($usertype); die;
     $query = "SELECT * FROM users WHERE id = '$id'";
     // var_dump($username);die;
     $result = mysqli_query($sqlConnection, $query);
@@ -21,7 +22,8 @@
     $school_fees = $user[0]['school_fees'];
     $my_class = $user[0]['students_class'];
     $_SESSION['my_class'] = $my_class;
-    // var_dump($school_fees);die;
+    // var_dump($user[0]['students_class']);die;
+    
 ?>
 
  <style>
@@ -188,6 +190,7 @@
 .upcoming-events-section ul {
     list-style-type: none;
     margin-top: 15px;
+    padding:0px;
 }
 
 .upcoming-events-section li {
@@ -222,103 +225,182 @@
     
 
     <!-- Bible verse section -->
-    <div class="bible-verse-section">
-        <div class="bible-title">Bible verse of the day</div>
-        <div class="bible-verse">
-            <strong>John 3 verse 16</strong><br>
-            For God so loved the world that He gave His only begotten Son, that whosoever believeth in Him shall not perish but have everlasting life.
+    <?php
+    if($usertype == 'admin'){
+        echo "
+            <div class='bible-verse-section'>
+                <div class='bible-title'>I am an admin</div>
+                <div class='bible-verse'>
+                    <strong>Gen 1 verse 1</strong><br>
+                    <p>In the beginning, God creeated the heaven and the earth</p>
+                </div>
+            </div>
+        ";
+    }else{
+        echo "
+            <div class='bible-verse-section'>
+                <div class='bible-title'>Bible verse of the day</div>
+                <div class='bible-verse'>
+                    <strong>John 3 verse 16</strong><br>
+                    For God so loved the world that He gave His only begotten Son, that whosoever believeth in Him shall not perish but have everlasting life.
+                </div>
+            </div>
+        ";
+    }
+    ?>
+
+    <?php 
+        if($usertype === 'admin') {
+            echo"
+                <!-- Last terms section -->
+     <div style=' display:flex; flex-direction:row; margin-bottom:48px; justify:space-evenly;'>
+        <div style='flex-grow:1;'>
+            <div class='last-term-heading'><span>Last term</span></div>
+            <div class='last-terms-section' style='color:black; background:white;'>
+                <div class='last-term-item'>
+                    <span style='color:black;'>Class teacher</span><br>
+                    <strong>JSS 1B</strong>
+                </div>
+                <div class='last-term-item'>
+                    <span style='color:black;'>Students</span><br>
+                    <strong>19</strong>
+                </div>
+                <div class='last-term-item'>
+                    <span style='color:black;'>Subjects</span><br>
+                    <strong>2</strong>
+                </div>
+            </div>
+        </div>
+
+        <div style='flex-grow:1;'>
+            <div class='last-term-heading'><span>This term</span></div>
+            <div class='last-terms-section' style='color:white; background:#494949;'>
+                <div class='last-term-item'>
+                    <span style='color:white;'>Class teacher</span><br>
+                    <strong>JSS 1B</strong>
+                </div>
+                <div class='last-term-item'>
+                    <span style='color:white;'>Students</span><br>
+                    <strong>24</strong>
+                </div>
+                <div class='last-term-item'>
+                    <span style='color:white;'>Subjects</span><br>
+                    <strong>3</strong>
+                </div>
+            </div>
         </div>
     </div>
+            ";
+        }else{
+            echo"
+                    <!-- Last terms section -->
+     <div style=' display:flex; flex-direction:row; margin-bottom:48px; justify:space-evenly;'>
+        <div style='flex-grow:1;'>
+            <div class='last-term-heading'><span>Last term</span></div>
+            <div class='last-terms-section' style='margin-right:8px;'>
+                <div class='last-term-item'>
+                    <span>Position</span><br>
+                    <strong>5</strong>
+                </div>
+                <div class='last-term-item'>
+                    <span>Class size</span><br>
+                    <strong>20</strong>
+                </div>
+            </div>
+        </div>
 
-    <!-- Last terms section -->
-     <div style=" display:flex; flex-direction:row; margin-bottom:48px; justify:space-evenly;">
+        <div style='flex-grow:1;'>
+            <div class='last-term-heading'><span>Last term</span></div>
+            <div class='last-terms-section'>
+                <div class='last-term-item' style='width:100%;'>
+                    <span>Subjects offered</span><br>
+                    <strong>10</strong>
+                </div>
+            </div>
+        </div>
+
+        <div style='flex-grow:1;'>
+            <div class='last-term-heading'><span>This term</span></div>
+            <div class='last-terms-section' style='color:white; background:#494949;'>
+                <div class='last-term-item'>
+                    <span style='color:white;'>Present</span><br>
+                    <strong>19</strong>
+                </div>
+                <div class='last-term-item'>
+                    <span style='color:white;'>Out of</span><br>
+                    <strong>20</strong>
+                </div>
+                <div class='last-term-item'>
+                    <span style='color:white;'>Term total</span><br>
+                    <strong>120</strong>
+                </div>
+            </div>
+        </div>
+    </div>      
+            ";
+        }
+    ?>
     
-     <div style="width:25%;">
-        <div class="last-term-heading"><span>Last term</span></div>
-        <div class="last-terms-section" style="margin-right:8px;">
-            <div class="last-term-item">
-                <span>Position</span><br>
-                <strong>5</strong>
-            </div>
-            <div class="last-term-item">
-                <span>Class size</span><br>
-                <strong>20</strong>
-            </div>
+    <?php 
+    if($usertype === 'admin') {
+        echo"
+            <!-- Quick links section -->
+    <div class='quick-links'>
+        <div class='quick-link classmates'>
+            <i class='fa fa-users'></i> Classmates 20
+        </div>
+        <div href='public/list-of-teachers.php' class='quick-link teachers'>
+            <i class='fa fa-chalkboard-teacher'></i> Teachers 15
+        </div>
+        <div class='quick-link class'>
+            Classes
+        </div>
+        <div class='quick-link subjects'>
+            <i class='fa fa-book'></i> Subjects
+        </div>
+        <div class='quick-link club'>
+            <i class='fa fa-futbol'></i> Club
+        </div>
+        <div class='quick-link house'>
+            <i class='fa fa-home'></i> House
+        </div>
+    </div> 
+        ";
+    }else{
+        echo"
+        <!-- Quick links section -->
+    <div class='quick-links'>
+        <div class='quick-link classmates'>
+            <i class='fa fa-users'></i> Classmates 20
+        </div>
+        <div class='quick-link teachers'>
+            <i class='fa fa-chalkboard-teacher'></i> Teachers 15
+        </div>
+        <div class='quick-link class'>
+            Classes
+        </div>
+        <div class='quick-link subjects'>
+            <i class='fa fa-book'></i> Subjects
+        </div>
+        <div class='quick-link club'>
+            <i class='fa fa-futbol'></i> Club
+        </div>
+        <div class='quick-link house'>
+            <i class='fa fa-home'></i> House
         </div>
     </div>
+        ";
+    }
+    ?>
 
-    <div style="width:25%;">
-        <div class="last-term-heading"><span>Last term</span></div>
-        <div class="last-terms-section">
-            <!-- <div class="last-term-item">
-                <span>Position</span><br>
-                <strong>5</strong>
-            </div> -->
-            <div class="last-term-item" style="width:100%;">
-                <span>Subjects offered</span><br>
-                <strong>10</strong>
-            </div>
-        </div>
-    </div>
-
-    <div style="width:25%;">
-        <div class="last-term-heading"><span>Last term</span></div>
-        <div class="last-terms-section">
-            <div class="last-term-item">
-                <span>Position</span><br>
-                <strong>5</strong>
-            </div>
-            <div class="last-term-item">
-                <span>Class size</span><br>
-                <strong>20</strong>
-            </div>
-        </div>
-    </div>
     
-    <div style="width:25%;">
-        <div class="last-term-heading"><span>Last term</span></div>
-        <div class="last-terms-section">
-            <div class="last-term-item">
-                <span>Position</span><br>
-                <strong>5</strong>
-            </div>
-            <div class="last-term-item">
-                <span>Class size</span><br>
-                <strong>20</strong>
-            </div>
-        </div>
-    </div>
-   
-    </div>
-
-    <!-- Quick links section -->
-    <div class="quick-links">
-        <div class="quick-link classmates">
-            <i class="fa fa-users"></i> Classmates 20
-        </div>
-        <div class="quick-link teachers">
-            <i class="fa fa-chalkboard-teacher"></i> Teachers 15
-        </div>
-        <div class="quick-link class">
-            JSS 3A
-        </div>
-        <div class="quick-link subjects">
-            <i class="fa fa-book"></i> Subjects
-        </div>
-        <div class="quick-link club">
-            <i class="fa fa-futbol"></i> Club
-        </div>
-        <div class="quick-link house">
-            <i class="fa fa-home"></i> House
-        </div>
-    </div>
 
     <!-- Upcoming events section -->
     <div class="upcoming-events-section">
         <div class="section-title">Upcoming events</div>
         <ul>
-            <li>Inter-house sport</li>
-            <li>Inter-house sport</li>
+            <li>Parent-Teacher meeting</li>
+            <li>Mid-term break </li>
             <li>Inter-house sport</li>
         </ul>
     </div>
