@@ -9,3 +9,4 @@
 ./public/inc/format.html
 ./public/inc/config.php
 ./public/config/login/classes/Database.php
+/public/inc/lesson_notes

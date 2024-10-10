@@ -191,7 +191,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for=""><br></label>
-                                    <input type="submit" id="submit" name="submit" class="form-control btn btn-primary">
+                                    <input type="submit" id="submit" name="submit" class="form-control btn btn-primary" value="Upload Lesson Note">
                                 </div>
                             </div>
                         </form>
@@ -212,6 +212,25 @@
                     ?>
                     <div class="row mt-4">
                         <?php
+                            // $status = ['-1'=>'declined', '0'=>'pending', '1'=>'approved'];
+                            
+                            // for ($i = 0; $i < sizeof($result); $i++){
+                            //     // var_dump($status[$result[$i]['approved']]);die;
+                            //     echo "
+                            //     <div class='col-md-2'>
+                            //         <div class='card'>
+                            //             <img class='card-img-top img-fluid' src='assets/images/media/sm-5.jpg' alt='Card image cap'>
+                            //             <div class='card-body'>
+                            //                 <h5 class='card-title text-center {$status[$result[$i]['approved']]}'><span>{$result[$i]['grade']}</span> | <span>{$result[$i]['subject']}</span></h5>
+                            //                 <h5 class='card-title text-center {$status[$result[$i]['approved']]}'><span>{$status[$result[$i]['approved']]}</span></h5>
+                            //             </div>".isset($result[$i]['comment'])? echo"<div class='card-footer'>{$result[$i]['comment']}</div>":""."
+                            //         </div>
+                            //     </div>";
+                            //     }
+                            // endif;
+
+                        ?>
+                        <?php
                             $status = ['-1'=>'declined', '0'=>'pending', '1'=>'approved'];
                             
                             for ($i = 0; $i < sizeof($result); $i++){
@@ -223,7 +242,13 @@
                                         <div class='card-body'>
                                             <h5 class='card-title text-center {$status[$result[$i]['approved']]}'><span>{$result[$i]['grade']}</span> | <span>{$result[$i]['subject']}</span></h5>
                                             <h5 class='card-title text-center {$status[$result[$i]['approved']]}'><span>{$status[$result[$i]['approved']]}</span></h5>
-                                        </div>
+                                        </div>".(isset($result[$i]['comment']) ? "
+                                            <div class='card-footer text-center' style='text-transform: capitalize !important;'>
+                                                Admin's Comment:
+                                                {$result[$i]['comment']}
+                                                <em class='text-xs d-block mt-4' style='text-transform: capitalize !important; font-size: 0.7rem;'>please fix according to comment and reupload</em>
+                                            </div>
+                                        " : "")."
                                     </div>
                                 </div>";
                                 }
@@ -280,7 +305,7 @@
                     const declineModalBody = document.querySelector('#decline-modal-body');
 
                     if (fileUploadDiv) {
-                        declineModalBody.removeChild(fileUploadDiv);
+                        declineModalBodyNaNpxoveChild(fileUploadDiv);
                         addButton.textContent = 'Add Revised File Attachment';
                     } else {
                         // const revisedFileDiv = document.createElement('div');

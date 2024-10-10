@@ -170,10 +170,10 @@
 
     else{
         //spool out my classes
-        $query = "SELECT ft.id AS form_teacher_id, ft.form_teacher AS teacher_id, ca.name AS arm_name, sc.grade AS class_name, ca.arm_id AS arm_id
+        $query = "SELECT ft.id AS form_teacher_id, ft.form_teacher AS teacher_id, ca.arm AS arm_name, sc.grade AS class_name, ca.id AS arm_id
             FROM form_teachers ft
-            INNER JOIN class_arms ca ON ft.arm_id = ca.arm_id
-            INNER JOIN student_classes sc ON ca.class_id = sc.id
+            INNER JOIN arms ca ON ft.arm_id = ca.id
+            INNER JOIN student_classes sc ON ca.class = sc.id
             WHERE ft.form_teacher = ".$my_id;
         $run_query = mysqli_query($sqlConnection, $query);
         $classes = $run_query->fetch_all(MYSQLI_ASSOC);
@@ -278,10 +278,10 @@
                         $run_query = mysqli_query($sqlConnection, $query);
                         $students = $run_query->fetch_all(MYSQLI_ASSOC);
 
-                        $query = "SELECT ca.name AS arm_name, sc.grade AS class_name, ca.arm_id AS arm_id
-                            FROM  class_arms ca
-                            INNER JOIN student_classes sc ON ca.class_id = sc.id
-                            WHERE ca.class_id = $class_id LIMIT 1";
+                        $query = "SELECT ca.arm AS arm_name, sc.grade AS class_name, ca.id AS arm_id
+                            FROM  arms ca
+                            INNER JOIN student_classes sc ON ca.class = sc.id
+                            WHERE ca.class = $class_id LIMIT 1";
                         $run_query = mysqli_query($sqlConnection, $query);
                         $class = $run_query->fetch_all(MYSQLI_ASSOC);
                     ?>
@@ -362,10 +362,10 @@
                     <?php elseif($attendance_id && isset($_GET['edit']) && $_GET['edit'] == 'true'): 
                         $class_id = $_GET['id'];
 
-                        $query = "SELECT ca.name AS arm_name, sc.grade AS class_name, ca.arm_id AS arm_id
-                            FROM  class_arms ca
-                            INNER JOIN student_classes sc ON ca.class_id = sc.id
-                            WHERE ca.class_id = $class_id LIMIT 1";
+                        $query = "SELECT ca.arm AS arm_name, sc.grade AS class_name, ca.id AS arm_id
+                            FROM  arms ca
+                            INNER JOIN student_classes sc ON ca.class = sc.id
+                            WHERE ca.class = $class_id LIMIT 1";
                         $run_query = mysqli_query($sqlConnection, $query);
                         $class = $run_query->fetch_all(MYSQLI_ASSOC);
 
@@ -472,10 +472,10 @@
                         $run_query = mysqli_query($sqlConnection, $query);
                         $students = $run_query->fetch_all(MYSQLI_ASSOC);
 
-                        $query = "SELECT ca.name AS arm_name, sc.grade AS class_name, ca.arm_id AS arm_id
-                            FROM  class_arms ca
-                            INNER JOIN student_classes sc ON ca.class_id = sc.id
-                            WHERE ca.class_id = $class_id LIMIT 1";
+                        $query = "SELECT ca.arm AS arm_name, sc.grade AS class_name, ca.id AS arm_id
+                            FROM  arms ca
+                            INNER JOIN student_classes sc ON ca.class = sc.id
+                            WHERE ca.class = $class_id LIMIT 1";
                         $run_query = mysqli_query($sqlConnection, $query);
                         $class = $run_query->fetch_all(MYSQLI_ASSOC);
                         // echo json_encode($class[0]['class_name']);exit();
