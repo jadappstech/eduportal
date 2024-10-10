@@ -183,25 +183,39 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `lesson_notes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
+-- CREATE TABLE `lesson_notes` (
+--   `id` int NOT NULL AUTO_INCREMENT,
+--   `grade` varchar(45) DEFAULT NULL,
+--   `subject` varchar(45) DEFAULT NULL,
+--   `lesson_note` varchar(256) DEFAULT NULL,
+--   `uploaded_by` int DEFAULT NULL,
+--   `approved` int DEFAULT '0',
+--   `updated_at` timestamp NULL DEFAULT NULL,
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 CREATE TABLE `lesson_notes` (
   `id` int NOT NULL AUTO_INCREMENT,
   `grade` varchar(45) DEFAULT NULL,
   `subject` varchar(45) DEFAULT NULL,
   `lesson_note` varchar(256) DEFAULT NULL,
   `uploaded_by` int DEFAULT NULL,
+  `reviewed_by` int DEFAULT NULL,
   `approved` int DEFAULT '0',
+  `comment` varchar(256) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `lesson_notes`
 --
 
-LOCK TABLES `lesson_notes` WRITE;
-/*!40000 ALTER TABLE `lesson_notes` DISABLE KEYS */;
-INSERT INTO `lesson_notes` VALUES (1,'sss1','mathematics','Test document.pdf',7,-1,NULL),(2,'sss1','mathematics','Test document.pdf',7,-1,NULL),(3,'jss1','english','Test document.pdf',7,1,NULL),(4,'jss1','english','Test document.pdf',7,-1,NULL),(5,'sss3','mathematics','2023 CAMP PROGRAMME OUTLINE.docx',7,-1,NULL),(6,'sss1','english','2023_1 CIT 104 Practical - Exercises Questions.docx',3,-1,NULL),(7,'sss3','mathematics','Invoice-1763438.pdf',7,1,NULL),(8,'sss2','mathematics','2023_1 CIT 104 Practical - Exercises Questions.docx',5,1,NULL),(9,'jss3','english','2023_1 CIT 104 Practical - Exercises Questions.docx',3,1,NULL),(10,'jss2','mathematics','2023_1 CIT 104 Practical - Exercises Questions.docx',3,-1,NULL),(11,'jss2','mathematics','Invoice-1763438.pdf',3,1,NULL),(12,'jss1','mathematics','Invoice-1763438.pdf',7,0,NULL);
+-- LOCK TABLES `lesson_notes` WRITE;
+-- /*!40000 ALTER TABLE `lesson_notes` DISABLE KEYS */;
+-- INSERT INTO `lesson_notes` VALUES (1,'sss1','mathematics','Test document.pdf',7,-1,NULL),(2,'sss1','mathematics','Test document.pdf',7,-1,NULL),(3,'jss1','english','Test document.pdf',7,1,NULL),(4,'jss1','english','Test document.pdf',7,-1,NULL),(5,'sss3','mathematics','2023 CAMP PROGRAMME OUTLINE.docx',7,-1,NULL),(6,'sss1','english','2023_1 CIT 104 Practical - Exercises Questions.docx',3,-1,NULL),(7,'sss3','mathematics','Invoice-1763438.pdf',7,1,NULL),(8,'sss2','mathematics','2023_1 CIT 104 Practical - Exercises Questions.docx',5,1,NULL),(9,'jss3','english','2023_1 CIT 104 Practical - Exercises Questions.docx',3,1,NULL),(10,'jss2','mathematics','2023_1 CIT 104 Practical - Exercises Questions.docx',3,-1,NULL),(11,'jss2','mathematics','Invoice-1763438.pdf',3,1,NULL),(12,'jss1','mathematics','Invoice-1763438.pdf',7,0,NULL);
 /*!40000 ALTER TABLE `lesson_notes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -595,13 +609,307 @@ LOCK TABLES `upload_assignments` WRITE;
 /*!40000 ALTER TABLE `upload_assignments` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+/* Trigger structure for table `attendance` */
+DROP TABLE IF EXISTS `attendance`;
+
+CREATE TABLE `attendance` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `class_id` int NOT NULL,
+  `created_by` int NOT NULL,
+  `present_count` int NOT NULL,
+  `absent_count` int NOT NULL,
+  `total_students` int NOT NULL,
+  `attendance_date` datetime NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `class_id` (`class_id`),
+  CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `student_classes` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+/*Data for the table `attendance` */
+
+insert  into `attendance`(`id`,`class_id`,`created_by`,`present_count`,`absent_count`,`total_students`,`attendance_date`,`created_at`,`updated_at`) values 
+(1,6,7,20,1,21,'2024-10-04 15:53:25','2024-10-04 16:53:25','2024-10-04 16:53:25'),
+(2,6,7,20,1,21,'2024-10-04 15:53:35','2024-10-04 16:53:35','2024-10-04 16:53:35'),
+(3,6,7,20,1,21,'2024-10-04 15:54:00','2024-10-04 16:54:00','2024-10-04 16:54:00'),
+(4,6,7,19,2,21,'2024-10-07 10:00:40','2024-10-07 11:00:40','2024-10-07 11:00:40'),
+(5,6,7,19,2,21,'2024-10-07 10:05:38','2024-10-07 11:05:38','2024-10-07 11:05:38'),
+(6,6,7,19,2,21,'2024-10-07 10:06:05','2024-10-07 11:06:05','2024-10-07 11:06:05'),
+(7,6,7,19,2,21,'2024-10-07 10:07:33','2024-10-07 11:07:33','2024-10-07 11:07:33'),
+(8,6,7,19,2,21,'2024-10-07 10:09:22','2024-10-07 11:09:22','2024-10-07 11:09:22'),
+(9,6,7,19,2,21,'2024-10-07 10:09:59','2024-10-07 11:09:59','2024-10-07 11:09:59'),
+(10,6,7,21,0,21,'2024-10-07 10:10:28','2024-10-07 11:10:28','2024-10-07 11:10:28'),
+(11,6,7,9,12,21,'2024-10-07 10:11:39','2024-10-07 11:11:39','2024-10-07 11:11:39'),
+(12,6,7,16,5,21,'2024-10-07 10:20:06','2024-10-07 11:20:06','2024-10-07 11:20:06'),
+(13,6,7,7,14,21,'2024-10-08 02:42:43','2024-10-08 03:42:43','2024-10-08 03:46:18'),
+(14,12,7,5,1,6,'2024-10-08 02:55:13','2024-10-08 03:55:13','2024-10-08 03:55:21');
+
+
+CREATE TABLE `student_attendance` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `attendance_id` int NOT NULL,
+  `student_id` int NOT NULL,
+  `status` enum('Present','Absent') NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `attendance_id` (`attendance_id`),
+  KEY `student_id` (`student_id`),
+  CONSTRAINT `student_attendance_ibfk_1` FOREIGN KEY (`attendance_id`) REFERENCES `attendance` (`id`),
+  CONSTRAINT `student_attendance_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=287 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+/*Data for the table `student_attendance` */
+
+insert  into `student_attendance`(`id`,`attendance_id`,`student_id`,`status`) values 
+(22,3,2,'Present'),
+(23,3,8,'Present'),
+(24,3,10,'Absent'),
+(25,3,11,'Present'),
+(26,3,12,'Present'),
+(27,3,15,'Present'),
+(28,3,16,'Present'),
+(29,3,17,'Present'),
+(30,3,18,'Present'),
+(31,3,19,'Present'),
+(32,3,20,'Present'),
+(33,3,21,'Present'),
+(34,3,22,'Present'),
+(35,3,23,'Present'),
+(36,3,24,'Present'),
+(37,3,25,'Present'),
+(38,3,26,'Present'),
+(39,3,27,'Present'),
+(40,3,28,'Present'),
+(41,3,32,'Present'),
+(42,3,33,'Present'),
+(43,4,2,'Present'),
+(44,4,8,'Present'),
+(45,4,10,'Present'),
+(46,4,11,'Present'),
+(47,4,12,'Present'),
+(48,4,15,'Present'),
+(49,4,16,'Present'),
+(50,4,17,'Absent'),
+(51,4,18,'Present'),
+(52,4,19,'Present'),
+(53,4,20,'Present'),
+(54,4,21,'Present'),
+(55,4,22,'Present'),
+(56,4,23,'Present'),
+(57,4,24,'Present'),
+(58,4,25,'Present'),
+(59,4,26,'Absent'),
+(60,4,27,'Present'),
+(61,4,28,'Present'),
+(62,4,32,'Present'),
+(63,4,33,'Present'),
+(64,5,2,'Present'),
+(65,5,8,'Present'),
+(66,5,10,'Present'),
+(67,5,11,'Present'),
+(68,5,12,'Present'),
+(69,5,15,'Present'),
+(70,5,16,'Present'),
+(71,5,17,'Absent'),
+(72,5,18,'Present'),
+(73,5,19,'Present'),
+(74,5,20,'Present'),
+(75,5,21,'Present'),
+(76,5,22,'Present'),
+(77,5,23,'Present'),
+(78,5,24,'Present'),
+(79,5,25,'Present'),
+(80,5,26,'Absent'),
+(81,5,27,'Present'),
+(82,5,28,'Present'),
+(83,5,32,'Present'),
+(84,5,33,'Present'),
+(85,6,2,'Present'),
+(86,6,8,'Present'),
+(87,6,10,'Present'),
+(88,6,11,'Present'),
+(89,6,12,'Present'),
+(90,6,15,'Present'),
+(91,6,16,'Present'),
+(92,6,17,'Absent'),
+(93,6,18,'Present'),
+(94,6,19,'Present'),
+(95,6,20,'Present'),
+(96,6,21,'Present'),
+(97,6,22,'Present'),
+(98,6,23,'Present'),
+(99,6,24,'Present'),
+(100,6,25,'Present'),
+(101,6,26,'Absent'),
+(102,6,27,'Present'),
+(103,6,28,'Present'),
+(104,6,32,'Present'),
+(105,6,33,'Present'),
+(106,7,2,'Present'),
+(107,7,8,'Present'),
+(108,7,10,'Present'),
+(109,7,11,'Present'),
+(110,7,12,'Present'),
+(111,7,15,'Present'),
+(112,7,16,'Present'),
+(113,7,17,'Absent'),
+(114,7,18,'Present'),
+(115,7,19,'Present'),
+(116,7,20,'Present'),
+(117,7,21,'Present'),
+(118,7,22,'Present'),
+(119,7,23,'Present'),
+(120,7,24,'Present'),
+(121,7,25,'Present'),
+(122,7,26,'Absent'),
+(123,7,27,'Present'),
+(124,7,28,'Present'),
+(125,7,32,'Present'),
+(126,7,33,'Present'),
+(127,8,2,'Present'),
+(128,8,8,'Present'),
+(129,8,10,'Present'),
+(130,8,11,'Present'),
+(131,8,12,'Present'),
+(132,8,15,'Present'),
+(133,8,16,'Present'),
+(134,8,17,'Absent'),
+(135,8,18,'Present'),
+(136,8,19,'Present'),
+(137,8,20,'Present'),
+(138,8,21,'Present'),
+(139,8,22,'Present'),
+(140,8,23,'Present'),
+(141,8,24,'Present'),
+(142,8,25,'Present'),
+(143,8,26,'Absent'),
+(144,8,27,'Present'),
+(145,8,28,'Present'),
+(146,8,32,'Present'),
+(147,8,33,'Present'),
+(148,9,2,'Present'),
+(149,9,8,'Present'),
+(150,9,10,'Present'),
+(151,9,11,'Present'),
+(152,9,12,'Present'),
+(153,9,15,'Present'),
+(154,9,16,'Present'),
+(155,9,17,'Absent'),
+(156,9,18,'Present'),
+(157,9,19,'Present'),
+(158,9,20,'Present'),
+(159,9,21,'Present'),
+(160,9,22,'Present'),
+(161,9,23,'Present'),
+(162,9,24,'Present'),
+(163,9,25,'Present'),
+(164,9,26,'Absent'),
+(165,9,27,'Present'),
+(166,9,28,'Present'),
+(167,9,32,'Present'),
+(168,9,33,'Present'),
+(169,10,2,'Present'),
+(170,10,8,'Present'),
+(171,10,10,'Present'),
+(172,10,11,'Present'),
+(173,10,12,'Present'),
+(174,10,15,'Present'),
+(175,10,16,'Present'),
+(176,10,17,'Present'),
+(177,10,18,'Present'),
+(178,10,19,'Present'),
+(179,10,20,'Present'),
+(180,10,21,'Present'),
+(181,10,22,'Present'),
+(182,10,23,'Present'),
+(183,10,24,'Present'),
+(184,10,25,'Present'),
+(185,10,26,'Present'),
+(186,10,27,'Present'),
+(187,10,28,'Present'),
+(188,10,32,'Present'),
+(189,10,33,'Present'),
+(190,11,2,'Present'),
+(191,11,8,'Present'),
+(192,11,10,'Present'),
+(193,11,11,'Present'),
+(194,11,12,'Absent'),
+(195,11,15,'Absent'),
+(196,11,16,'Absent'),
+(197,11,17,'Absent'),
+(198,11,18,'Absent'),
+(199,11,19,'Absent'),
+(200,11,20,'Absent'),
+(201,11,21,'Absent'),
+(202,11,22,'Absent'),
+(203,11,23,'Absent'),
+(204,11,24,'Absent'),
+(205,11,25,'Absent'),
+(206,11,26,'Present'),
+(207,11,27,'Present'),
+(208,11,28,'Present'),
+(209,11,32,'Present'),
+(210,11,33,'Present'),
+(211,12,2,'Present'),
+(212,12,8,'Present'),
+(213,12,10,'Present'),
+(214,12,11,'Present'),
+(215,12,12,'Present'),
+(216,12,15,'Present'),
+(217,12,16,'Present'),
+(218,12,17,'Present'),
+(219,12,18,'Present'),
+(220,12,19,'Present'),
+(221,12,20,'Present'),
+(222,12,21,'Present'),
+(223,12,22,'Present'),
+(224,12,23,'Present'),
+(225,12,24,'Present'),
+(226,12,25,'Present'),
+(227,12,26,'Absent'),
+(228,12,27,'Absent'),
+(229,12,28,'Absent'),
+(230,12,32,'Absent'),
+(231,12,33,'Absent'),
+(254,13,2,'Present'),
+(255,13,8,'Present'),
+(256,13,10,'Absent'),
+(257,13,11,'Absent'),
+(258,13,12,'Present'),
+(259,13,15,'Absent'),
+(260,13,16,'Absent'),
+(261,13,17,'Absent'),
+(262,13,18,'Absent'),
+(263,13,19,'Absent'),
+(264,13,20,'Absent'),
+(265,13,21,'Absent'),
+(266,13,22,'Absent'),
+(267,13,23,'Absent'),
+(268,13,24,'Absent'),
+(269,13,25,'Absent'),
+(270,13,26,'Absent'),
+(271,13,27,'Present'),
+(272,13,28,'Present'),
+(273,13,32,'Present'),
+(274,13,33,'Present'),
+(281,14,2,'Present'),
+(282,14,8,'Present'),
+(283,14,10,'Present'),
+(284,14,11,'Absent'),
+(285,14,12,'Present'),
+(286,14,15,'Present');
+
+
 --
 -- Table structure for table `users`
 --
 
 DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+
+--
+-- Dumping data for table `users`
+--
 CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
@@ -610,6 +918,7 @@ CREATE TABLE `users` (
   `password` varchar(150) DEFAULT NULL,
   `usertype` varchar(45) NOT NULL DEFAULT 'student',
   `regnum` varchar(45) DEFAULT NULL,
+  `class_arm` int unsigned DEFAULT NULL,
   `students_class` varchar(45) DEFAULT NULL,
   `nationality` varchar(45) DEFAULT NULL,
   `state` varchar(45) DEFAULT NULL,
@@ -643,17 +952,50 @@ CREATE TABLE `users` (
   `form_class` varchar(45) DEFAULT NULL,
   `active` varchar(2) DEFAULT '1',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  UNIQUE KEY `email_UNIQUE` (`email`),
+  KEY `class_arm` (`class_arm`),
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`class_arm`) REFERENCES `class_arms` (`arm_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `users`
---
+/*Data for the table `users` */
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Apiuser',NULL,'user@example.com','$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','admin','1122','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'0'),(2,'student','akali','newuser@example.com','$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','student','','basic5','Nigerian','Federal Capital Territory','AMAC','O+','AA','Adams Alihu','910234567',NULL,'Software Developer','910234567','Home','Adams Alihu','910234567','Test@example.com','Software Developer','910234567','Home','','Test@example.com','female',0,'111.jpg',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(3,'admin','aliyu','admin@example.com','$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','admin','1111',NULL,'Nigerian','Federal Capital Territory','AMAC','O-','AA','Adams Alihu','910234567',NULL,'Software Developer','910234567','Home','Adams Alihu','910234567','Test@example.com','Software Developer','910234567','Home','','Test@example.com','male',0,'birset1r_.jpg',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(4,'jack','aliyu','jack@example.com','$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','accountant','1000','basic4','Nigerian','Federal Capital Territory','AMAC','O+','AA','Adams Alihu','910234567',NULL,'Software Developer','910234567','Home','Adams Alihu','910234567','Test@example.com','Software Developer','910234567','Home','','Test@example.com','male',1,'',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(5,'jones','ryanno','jones@example.com','$2y$10$c73KB1a6nYHXSvAsJQB7qOAj85SeSCHgJyO.F8s0DlxQ3MfrPMSVG','teacher','1234','','Nigerian','Federal Capital Territory','AMAC','','AA','','09112345678',NULL,'','','R/ship','Emergency Full name','127349324','email@example.com','Occupation','','Office address','2018-02-14','Test@example.com','male',0,'....jpg','{\"prenursery\":[\"mathematics\"],\"basic5\":[\"mathematics\"],\"sss3\":[\"mathematics\",\"physics\"]}',NULL,NULL,NULL,NULL,NULL,1,'jss1','1'),(7,'edith','olodo','teacher@example.com','$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','teacher','3456','','','Federal Capital Territory','AMAC','','','','',NULL,'','','UEONO','','','','','','','1800-08-26','','female',0,NULL,'{\"prenursery\":[\"physics\"]}',NULL,NULL,NULL,NULL,NULL,1,'prenursery','1'),(8,'tunde','agbawe','tunde@example.com','$2y$10$M9Lod3b..85WH9cMNMW/FOsB4rURW0u4CWusEBaf4cM.8dMWNwnkO','student','RN415','basic4','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','female',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(9,'marcus',NULL,'marcus@example.com','$2y$10$0HTR6JX2L6OSrigJl1eIm.tRvj0/jWOAE5WMY97qksk9/3AB.Wnbm','admin','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(10,'adams','Bitrus','adams@example.com','$2y$10$7TJFr0OR4d7ZcNVAskRdZOgmJfOk9uBoPMrmVsAB6GlEP18PZoCNa','student','RG4119','SSS1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(11,'uche','Pedro','uche@example.com','$2y$10$zkzKYkJp0yG1xHalanjLguLCp4C6n79ibWzQsZ0smEHuu/.bPICc6','student','RG4117','prenursery',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(12,'ken','Neth','ken@example.com','$2y$10$V8Zjxa2QE7pG9DMhAUupIeLxDeJ6/M9UzqT42KluEemcPZxBD1B/y','student','RG4114','SSS3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(13,'james','Docker','james@example.com','$2y$10$yL7eNCSyuj7C1sGxy28yIOe6LUVfHgArBSTKuhFmQWRKrs4gpUrnW','teacher','null',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'{\"prenursery\":[\"mathematics\",\"quantitative_reasoning\",\"chem\",\"handwriting\",\"social_studies\",\"nature_talk\",\"bible_talk\"],\"basic1\":[\"quantitative_reasoning\",\"chem\",\"handwriting\",\"health_education\",\"nature_talk\",\"bible_talk\"],\"basic2\":[\"quantitative_reasoning\",\"verbal_reasoning\",\"health_education\",\"social_studies\",\"nature_talk\",\"bible_talk\"],\"basic4\":[\"mathematics\",\"chem\",\"handwriting\",\"health_education\",\"nature_talk\",\"bible_talk\"],\"basic5\":[\"quantitative_reasoning\",\"verbal_reasoning\",\"health_education\",\"social_studies\",\"creative_art\"]}',NULL,NULL,NULL,NULL,NULL,1,'nursery1','1'),(14,'ben',NULL,'ben@example.com','$2y$10$k004IKak0t0n9B0uq314VOxmdk2TDj2rfg5mEKyw3l8nUqgLLvoe6','admin',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(15,'edfg','rewrdfvhjkjnf','tryjack@example.com','$2y$10$8yeN3fhuZ/oldbTsZ8atTOHAvuEcfj25L/vkBme3nQt9976stCiva','student','rg001','JSS1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'....jpg',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(16,'Felix','',NULL,'$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','student','','jss2','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(17,'fidelis','nkem',NULL,'$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','student','RG4186','nursery2','Nigerian','Federal Capital Territory','AMAC','O+','AA','Father\'s name','091233456564',NULL,'Staff','091233456564','res. Address','Mother\'s name','091233456564','test@example.com','Staff','091233456564','residential Address','2018-02-14','father@dmail.cim','male',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(18,'Fidelis','Eli',NULL,'$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','student',NULL,'SSS1','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(19,'Fidelis','Eli',NULL,NULL,'student',NULL,'SSS2','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(20,'Fidelis','Eli',NULL,NULL,'student',NULL,'SSS3','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(21,'Fidelia','',NULL,NULL,'student',NULL,'JSS1','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','female',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(22,'fidellia','',NULL,'$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','student','2345','prenursery','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','female',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(23,'ramos','',NULL,NULL,'student',NULL,'sss1','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','male',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(24,'Obioma','',NULL,NULL,'student',NULL,'jss2','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(25,'ngozi','pedro',NULL,'$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','student','RG4111','jss2','Nigerian','Federal Capital Territory','AMAC','O+','AA','Adams Pedro','12345678912',NULL,'Software Developer','12345678912','Home','Adams Pedro','12345678912','Test@example.com','Software Developer','12345678912','Home','','Test@example.com','female',1,'',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(26,'fidelis','alihu',NULL,NULL,'student',NULL,'jss2','Nigerian','Federal Capital Territory','AMAC','O+','AA','Adams','09012345678',NULL,'Software Developer','09012345678','Home','Aliya Aliyu','09012345678','test@example.com','Software Developer','09012345678','Home','2007-01-30','test@example.com','Array[\'gender\']',0,NULL,NULL,'SIA','Office','09012345678','09012345678','Office',0,NULL,'1'),(27,'fidelis','Abidemi',NULL,NULL,'student',NULL,'prenursery','Nigerian','Federal Capital Territory','AMAC','O+','AA','Adams','09012345678',NULL,'Software Developer','09012345678','Home','Aliya Aliyu','09012345678','test@example.com','Software Developer','09012345678','Home','2007-01-30','test@example.com','Array[\'gender\']',0,NULL,NULL,'SIA','Office','09012345678','09012345678','Office',0,NULL,'1'),(28,'fidelis','alihu',NULL,NULL,'student',NULL,'jss3','Nigerian','Federal Capital Territory','AMAC','O+','AA','Adams','09012345678',NULL,'Software Developer','09012345678','Home','Aliya Aliyu','09012345678','test@example.com','Software Developer','09012345678','Home','2007-01-30','test@example.com','Array[\'gender\']',0,NULL,NULL,'SIA','Office','09012345678','09012345678','Office',0,NULL,'1'),(29,'new','Teacher','new@example.com','$2y$10$0kChpnPR2i1gQrE7cEh1V.bYruj6vg8N3dfTDc13H40pK9ecA0NF.','teacher','RG411',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'basic2','1'),(30,'adelaja','Oruno','adelaja@example.com','$2y$10$uLMUa5YriQO618sHv3ngxe3otJqaZrIHNX7/d7d/cBMQrkQ9vnudi','teacher',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'{\"prenursery\":[\"mathematics\",\"quantitative_reasoning\",\"chem\"]}',NULL,NULL,NULL,NULL,NULL,1,'basic1','1'),(31,'abi','oye','abi@example.com','$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','teacher',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'jss2','1'),(32,'kenny','Adamy','kenny@example.com','$2y$10$IxuFGqGQ4bJ45DEYlyNZSe8Qoc7kFIjHo0h0FCNib6n3pnmZHtrU2','student','GR4111','nursery1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,'contractors.png',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(33,'aboki','malam','aboki@example.com','$2y$10$xLrsiur1.DLOgQqfSeCDX.588tkOFx.ymPV//TcVqIFEDwibzMulW','student','q123','nursery2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(34,'malam','olodo','malam@olodo.com','$2y$10$FORVWnMxnH0OeZy3WPS8EuBo5H/gv.zNTYu7ksVwfwm/tmpGKIGfi','teacher',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'basic 3','1'),(35,'teacher','washington','washington@example.com','$2y$10$DgthWhNFvYQCVpSJC0gbbe4UIAr2yl7Yl1xXkYaLwlkfq.TDt36e2','teacher',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),(36,'adam wyatt','Langley','garap@mailinator.com','$2y$10$tYv1hIYfb9lDWMaRXL7D2ODWTVN5FMkoPtn5Csge0H5I3SEIxjayy','student','GBA/SEC983','jss1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1');
+insert  into `users`(`id`,`name`,`surname`,`email`,`password`,`usertype`,`regnum`,`class_arm`,`students_class`,`nationality`,`state`,`lga`,`bloodgroup`,`genotype`,`parents_fullname`,`parents_phone`,`parents_number`,`occupation`,`wphone`,`address`,`sponsor_fullname`,`sponsor_phone`,`sponsor_email`,`sponsor_occupation`,`sponsor_wphone`,`sponsor_address`,`dob`,`parents_email`,`gender`,`school_fees`,`photo`,`toteach`,`prev_school`,`office_address`,`office_phone`,`sponsor_office_phone`,`sponsor_office_address`,`form_teacher`,`form_class`,`active`) values 
+(1,'Apiuser',NULL,'user@example.com','$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','admin','1122',NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'0'),
+(2,'student','akali','newuser@example.com','$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','student','',12,'basic5','Nigerian','Federal Capital Territory','AMAC','O+','AA','Adams Alihu','910234567',NULL,'Software Developer','910234567','Home','Adams Alihu','910234567','Test@example.com','Software Developer','910234567','Home','','Test@example.com','female',0,'111.jpg',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(3,'admin','aliyu','admin@example.com','$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','admin','1111',NULL,NULL,'Nigerian','Federal Capital Territory','AMAC','O-','AA','Adams Alihu','910234567',NULL,'Software Developer','910234567','Home','Adams Alihu','910234567','Test@example.com','Software Developer','910234567','Home','','Test@example.com','male',0,'birset1r_.jpg',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(4,'jack','aliyu','jack@example.com','$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','accountant','1000',NULL,'basic4','Nigerian','Federal Capital Territory','AMAC','O+','AA','Adams Alihu','910234567',NULL,'Software Developer','910234567','Home','Adams Alihu','910234567','Test@example.com','Software Developer','910234567','Home','','Test@example.com','male',1,'',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(5,'jones','ryanno','jones@example.com','$2y$10$c73KB1a6nYHXSvAsJQB7qOAj85SeSCHgJyO.F8s0DlxQ3MfrPMSVG','teacher','1234',NULL,'','Nigerian','Federal Capital Territory','AMAC','','AA','','09112345678',NULL,'','','R/ship','Emergency Full name','127349324','email@example.com','Occupation','','Office address','2018-02-14','Test@example.com','male',0,'....jpg','{\"prenursery\":[\"mathematics\"],\"basic5\":[\"mathematics\"],\"sss3\":[\"mathematics\",\"physics\"]}',NULL,NULL,NULL,NULL,NULL,1,'jss1','1'),
+(7,'edith','olodo','teacher@example.com','$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','teacher','3456',NULL,'','','Federal Capital Territory','AMAC','','','','',NULL,'','','UEONO','','','','','','','1800-08-26','','female',0,NULL,'{\"prenursery\":[\"physics\"]}',NULL,NULL,NULL,NULL,NULL,1,'prenursery','1'),
+(8,'tunde','agbawe','tunde@example.com','$2y$10$M9Lod3b..85WH9cMNMW/FOsB4rURW0u4CWusEBaf4cM.8dMWNwnkO','student','RN415',12,'basic4','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','female',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(9,'marcus',NULL,'marcus@example.com','$2y$10$0HTR6JX2L6OSrigJl1eIm.tRvj0/jWOAE5WMY97qksk9/3AB.Wnbm','admin','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(10,'adams','Bitrus','adams@example.com','$2y$10$7TJFr0OR4d7ZcNVAskRdZOgmJfOk9uBoPMrmVsAB6GlEP18PZoCNa','student','RG4119',12,'SSS1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(11,'uche','Pedro','uche@example.com','$2y$10$zkzKYkJp0yG1xHalanjLguLCp4C6n79ibWzQsZ0smEHuu/.bPICc6','student','RG4117',12,'prenursery',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(12,'ken','Neth','ken@example.com','$2y$10$V8Zjxa2QE7pG9DMhAUupIeLxDeJ6/M9UzqT42KluEemcPZxBD1B/y','student','RG4114',12,'SSS3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(13,'james','Docker','james@example.com','$2y$10$yL7eNCSyuj7C1sGxy28yIOe6LUVfHgArBSTKuhFmQWRKrs4gpUrnW','teacher','null',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'{\"prenursery\":[\"mathematics\",\"quantitative_reasoning\",\"chem\",\"handwriting\",\"social_studies\",\"nature_talk\",\"bible_talk\"],\"basic1\":[\"quantitative_reasoning\",\"chem\",\"handwriting\",\"health_education\",\"nature_talk\",\"bible_talk\"],\"basic2\":[\"quantitative_reasoning\",\"verbal_reasoning\",\"health_education\",\"social_studies\",\"nature_talk\",\"bible_talk\"],\"basic4\":[\"mathematics\",\"chem\",\"handwriting\",\"health_education\",\"nature_talk\",\"bible_talk\"],\"basic5\":[\"quantitative_reasoning\",\"verbal_reasoning\",\"health_education\",\"social_studies\",\"creative_art\"]}',NULL,NULL,NULL,NULL,NULL,1,'nursery1','1'),
+(14,'ben',NULL,'ben@example.com','$2y$10$k004IKak0t0n9B0uq314VOxmdk2TDj2rfg5mEKyw3l8nUqgLLvoe6','admin',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(15,'edfg','rewrdfvhjkjnf','tryjack@example.com','$2y$10$8yeN3fhuZ/oldbTsZ8atTOHAvuEcfj25L/vkBme3nQt9976stCiva','student','rg001',12,'JSS1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'....jpg',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(16,'Felix','',NULL,'$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','student','',6,'jss2','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(17,'fidelis','nkem',NULL,'$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','student','RG4186',6,'nursery2','Nigerian','Federal Capital Territory','AMAC','O+','AA','Father\'s name','091233456564',NULL,'Staff','091233456564','res. Address','Mother\'s name','091233456564','test@example.com','Staff','091233456564','residential Address','2018-02-14','father@dmail.cim','male',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(18,'Fidelis','Eli',NULL,'$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','student',NULL,6,'SSS1','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(19,'Fidelis','Eli',NULL,NULL,'student',NULL,6,'SSS2','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(20,'Fidelis','Eli',NULL,NULL,'student',NULL,6,'SSS3','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(21,'Fidelia','',NULL,NULL,'student',NULL,6,'JSS1','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','female',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(22,'fidellia','',NULL,'$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','student','2345',6,'prenursery','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','female',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(23,'ramos','',NULL,NULL,'student',NULL,6,'sss1','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','male',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(24,'Obioma','',NULL,NULL,'student',NULL,6,'jss2','','Federal Capital Territory','AMAC','','','','',NULL,'','','','','','','','','','','','',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(25,'ngozi','pedro',NULL,'$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','student','RG4111',6,'jss2','Nigerian','Federal Capital Territory','AMAC','O+','AA','Adams Pedro','12345678912',NULL,'Software Developer','12345678912','Home','Adams Pedro','12345678912','Test@example.com','Software Developer','12345678912','Home','','Test@example.com','female',1,'',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(26,'fidelis','alihu',NULL,NULL,'student',NULL,6,'jss2','Nigerian','Federal Capital Territory','AMAC','O+','AA','Adams','09012345678',NULL,'Software Developer','09012345678','Home','Aliya Aliyu','09012345678','test@example.com','Software Developer','09012345678','Home','2007-01-30','test@example.com','Array[\'gender\']',0,NULL,NULL,'SIA','Office','09012345678','09012345678','Office',0,NULL,'1'),
+(27,'fidelis','Abidemi',NULL,NULL,'student',NULL,6,'prenursery','Nigerian','Federal Capital Territory','AMAC','O+','AA','Adams','09012345678',NULL,'Software Developer','09012345678','Home','Aliya Aliyu','09012345678','test@example.com','Software Developer','09012345678','Home','2007-01-30','test@example.com','Array[\'gender\']',0,NULL,NULL,'SIA','Office','09012345678','09012345678','Office',0,NULL,'1'),
+(28,'fidelis','alihu',NULL,NULL,'student',NULL,6,'jss3','Nigerian','Federal Capital Territory','AMAC','O+','AA','Adams','09012345678',NULL,'Software Developer','09012345678','Home','Aliya Aliyu','09012345678','test@example.com','Software Developer','09012345678','Home','2007-01-30','test@example.com','Array[\'gender\']',0,NULL,NULL,'SIA','Office','09012345678','09012345678','Office',0,NULL,'1'),
+(29,'new','Teacher','new@example.com','$2y$10$0kChpnPR2i1gQrE7cEh1V.bYruj6vg8N3dfTDc13H40pK9ecA0NF.','teacher','RG411',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'basic2','1'),
+(30,'adelaja','Oruno','adelaja@example.com','$2y$10$uLMUa5YriQO618sHv3ngxe3otJqaZrIHNX7/d7d/cBMQrkQ9vnudi','teacher',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'{\"prenursery\":[\"mathematics\",\"quantitative_reasoning\",\"chem\"]}',NULL,NULL,NULL,NULL,NULL,1,'basic1','1'),
+(31,'abi','oye','abi@example.com','$2y$10$69BL1TNnVvHvBnkB1JOkeew9kjoMIkqL3cXPoaYnK5NHgQG4pzSXO','teacher',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'jss2','1'),
+(32,'kenny','Adamy','kenny@example.com','$2y$10$IxuFGqGQ4bJ45DEYlyNZSe8Qoc7kFIjHo0h0FCNib6n3pnmZHtrU2','student','GR4111',6,'nursery1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,'contractors.png',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(33,'aboki','malam','aboki@example.com','$2y$10$xLrsiur1.DLOgQqfSeCDX.588tkOFx.ymPV//TcVqIFEDwibzMulW','student','q123',6,'nursery2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1'),
+(34,'malam','olodo','malam@olodo.com','$2y$10$FORVWnMxnH0OeZy3WPS8EuBo5H/gv.zNTYu7ksVwfwm/tmpGKIGfi','teacher',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'basic 3','1'),
+(35,'teacher','washington','washington@example.com','$2y$10$DgthWhNFvYQCVpSJC0gbbe4UIAr2yl7Yl1xXkYaLwlkfq.TDt36e2','teacher',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'1');
+
+
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

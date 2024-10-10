@@ -49,7 +49,7 @@ if($_FILES['corrected-file']['size'] > 2000000){
 
 // Validate input
 // Prepare and execute update query for the comment and reviewer
-$query = "UPDATE lesson_notes SET comment = ?, reviewed_by = ?, approved = 1 WHERE id = ?";
+$query = "UPDATE lesson_notes SET comment = ?, reviewed_by = ?, approved = -1 WHERE id = ?";
 $stmt = mysqli_prepare($sqlConnection, $query);
 mysqli_stmt_bind_param($stmt, "ssi", $comment, $reviewed_by, $id);
 
