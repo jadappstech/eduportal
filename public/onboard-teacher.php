@@ -66,7 +66,7 @@
                                             </div>
                                           </div>
                                           <div class="col-md-4 mb-3">
-                                            <label for="validationTooltip02">Last name</label>
+                                            <label for="validationTooltip02">Surname</label>
                                             <input type="text" class="form-control" name="surname" id="validationTooltip02" placeholder="Last name" value="" required>
                                             <div class="valid-tooltip">
                                               Looks good!

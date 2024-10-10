@@ -78,33 +78,29 @@ else :
             $check_email_stmt->bindValue(':email', $email, PDO::PARAM_STR);
             $check_email_stmt->execute();
            
-            // $check_regnum = "SELECT `regnum` FROM `users` WHERE `regnum`=:regnum";
-            // $check_regnum_stmt = $conn->prepare($check_regnum);
-            // $check_regnum_stmt->bindValue(':regnum', $regnum, PDO::PARAM_STR);
-            // $check_regnum_stmt->execute();
-
+            
             if ($check_email_stmt->rowCount()) :
                 $returnData = msg(0, 422, 'This E-mail already in use!');
             // elseif ($check_regnum_stmt->rowCount()) :
             //     $returnData = msg(0, 422, 'A student with this registration number already exists!');
 
             else :
-                $insert_query = "INSERT INTO `users`(`name`, `surname`, `email`, `password`, `usertype`) VALUES(:name,:surname,:email,:password,:usertype)";
+                $insert_query = "INSERT INTO `users`(`name`, `surname`, `email`, `regnum`, `password`, `usertype`) VALUES(:name,:surname,:email,:regnum,:password,:usertype)";
 
                 $insert_stmt = $conn->prepare($insert_query);
 
                 // DATA BINDING
                 $insert_stmt->bindValue(':name', htmlspecialchars(strip_tags($name)), PDO::PARAM_STR);
                 $insert_stmt->bindValue(':surname', htmlspecialchars(strip_tags($surname)), PDO::PARAM_STR);
-                // $insert_stmt->bindValue(':regnum', htmlspecialchars(strip_tags($regnum)), PDO::PARAM_STR);
                 $insert_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+                $insert_stmt->bindValue(':regnum', htmlspecialchars(strip_tags(strtolower($surname))), PDO::PARAM_STR);
                 $insert_stmt->bindValue(':password', password_hash($password, PASSWORD_DEFAULT), PDO::PARAM_STR);
                 $insert_stmt->bindValue(':usertype', htmlspecialchars(strip_tags($usertype)), PDO::PARAM_STR);
 
                 $insert_stmt->execute();
 
                 if(isset($_SESSION)){
-                    header( "refresh:0.1;url=../../../public/onboarding.php" );
+                    header( "refresh:0.1;url=../../../public/onboard-teacher.php" );
                     return;
                 }else{
                     

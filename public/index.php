@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Beavers Preparatory School Portal</title>
+        <title>Gloryland Baptist Academy - Login</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
         <meta content="MyraStudio" name="author" />
@@ -31,7 +31,7 @@
                                         <div class="card-body">
                                             <div class="text-center mb-4 mt-3">
                                                 <a href="index.php">
-                                                    <!-- <span><img src="assets/images/logo-dark.png" alt="" height="26"></span> -->
+                                                    <span><img src="assets/images/logo.png" alt="logo" height="26"></span>
                                                     <span><h3>Gloryland Baptist Academy Portal</h3></span>
                                                 </a>
                                             </div>
@@ -65,7 +65,7 @@
             
                                     <div class="row mt-4">
                                         <div class="col-sm-12 text-center">
-                                            <p class="text-white-50 mb-0">Create an account? <a href="register.php" class="text-white-50 ml-1"><b>Register student</b></a></p>
+                                            <!-- <p class="text-white-50 mb-0">Create an account? <a href="register.php" class="text-white-50 ml-1"><b>Register student</b></a></p> -->
                                         </div>
                                     </div>
             

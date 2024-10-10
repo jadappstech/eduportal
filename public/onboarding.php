@@ -106,7 +106,7 @@
                                             <div class="col-md-4 mb-3">
                                               <div class="row">
                                                 <div class="col-lg-4">
-                                                <label for="validationTooltip04">Registration Number</label>
+                                                <label for="validationTooltip04">Reg. Number</label>
                                                   <select name="regid" id="regid" class="form-control">
                                                     <option value="GBA/PRY">GBA/PRY</option>
                                                     <option value="GBA/SEC">GBA/SEC</option>

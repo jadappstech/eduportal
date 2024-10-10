@@ -1,7 +1,7 @@
 <?php
 session_start();
 //connect to the database
-    include_once('const.php');
+    include_once('./const.php');
 
     $sqlConnection = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
     // Check connection for errors and exit if true
@@ -129,9 +129,11 @@ session_start();
         $result = mysqli_query($sqlConnection, $query);
         // var_dump($sqlConnection);die;
         
-        $class_query = "UPDATE students_classes SET has_arms = '1' WHERE id = '$class_id' LIMIT 1";
-        $qyery_reult = mysqli_query($sqlConnection, $class_query);
+        // var_dump($result);die;
+        // $class_query = "UPDATE student_classes SET has_arms = '1' WHERE id = '$class_id' LIMIT 1";
+        // $query_reult = mysqli_query($sqlConnection, $class_query);
     
+        // var_dump($result);die;
         
         if($result){
             $data = [
