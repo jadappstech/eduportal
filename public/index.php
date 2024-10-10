@@ -40,11 +40,12 @@
                                                     <label for="name">Username</label>
                                                     <input class="form-control" type="text" name="name" id="name" value="admin" required="" placeholder="john@deo.com">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group" style=" position: relative;">
                                                     <a href="forgot.php" class="text-muted float-right">Forgot your password?</a>
                                                     <label for="password">Password</label>
                                                     <input class="form-control" type="password" required="" 
                                                     name="password" id="password" value="adminspassword" placeholder="Enter your password">
+                                                    <i class="fa fa-eye" id="eyeIcon" style="position:absolute; top:62%; right:10px; "></i>
                                                 </div>
             
                                                 <div class="form-group mb-4 pb-3">
@@ -92,7 +93,27 @@
     <script src="assets/js/theme.js"></script>
 
     <script>
-    
+    document.addEventListener('DOMContentLoaded', function() {
+    const passwordField = document.querySelector('#password'); // Password input field
+    const eyeIcon = document.querySelector('#eyeIcon'); // Eye icon
+
+    // Add click event listener to the eye icon
+    eyeIcon.addEventListener('click', function() {
+        // Check the current type of the password field (password or text)
+        const currentType = passwordField.getAttribute('type');
+
+        // Toggle the input type between 'password' and 'text'
+        if (currentType === 'password') {
+            passwordField.setAttribute('type', 'text'); // Show password
+            eyeIcon.classList.remove('fa-eye'); // Remove open-eye class
+            eyeIcon.classList.add('fa-eye-slash'); // Add closed-eye class
+        } else {
+            passwordField.setAttribute('type', 'password'); // Hide password
+            eyeIcon.classList.remove('fa-eye-slash'); // Remove closed-eye class
+            eyeIcon.classList.add('fa-eye'); // Add open-eye class
+        }
+        });
+    });
     </script>
 </body>
 
